@@ -2,5 +2,5 @@
 			
 		Editando archivo README.md con vi README.md
 
-		Julieta Delgado
+		Delgado
 		Julieta Delgado
