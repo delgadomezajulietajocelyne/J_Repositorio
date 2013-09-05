@@ -1,1 +1,6 @@
-ad
+ERRORES---------------
+
+Linea 3: ERROR la linea solo contiene etiqueta
+Linea 7: ERROR Codigo de Operacion invalido
+Linea 12: ERROR la Etiqueta contiene caracteres no alfanumericos
+ERROR no se encuentra la directiva END

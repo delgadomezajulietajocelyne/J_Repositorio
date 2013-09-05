@@ -4,4 +4,5 @@ LINEA		ETQ		CODOP		OPER
 4		Et1		equ		$ffFF
 5		dos		LDAA		@4732
 6		NULL		SWI		NULL
-10		tres		sWi		NULL
+8		NULL		DS.b.		%0011000011111100
+11		tres		sWi		NULL
