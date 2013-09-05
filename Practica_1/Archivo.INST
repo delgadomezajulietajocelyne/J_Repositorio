@@ -1,1 +1,7 @@
-afdasd
+LINEA		ETQ		CODOP		OPER
+--------------------------------------------------------
+2		NULL		ORG		%00001111
+4		Et1		equ		$ffFF
+5		dos		LDAA		@4732
+6		NULL		SWI		NULL
+10		tres		sWi		NULL

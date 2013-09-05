@@ -129,7 +129,7 @@ public class Linea {
 		int pos = nombre_fichero.lastIndexOf('.'); //me posiciono en el punto y obtengo la posicion
 		String extension = nombre_fichero.substring(pos+1); //me posiciono después del punto
 
-    	if(archivo.exists() && extension.equals("ASM")){
+    	if(archivo.exists() && (extension.equals("ASM") || extension.equals("asm"))){
         	return true;
    		}
    		else
@@ -186,7 +186,8 @@ public class Linea {
         		
         		//Para archivo INST
             	FileWriter archInst = new FileWriter(archivoInst,true);
-        		archInst.write("afdasd");
+        		archInst.write("LINEA\t\tETQ\t\tCODOP\t\tOPER\r\n");
+        		archInst.write("--------------------------------------------------------\r\n");
             	
             	// Leer el archivo linea por linea
             	while ((strLinea = buffer.readLine()) != null && banderaEnd == false){
@@ -220,9 +221,14 @@ public class Linea {
                 		pat = Pattern.compile("^[a-zA-Z].*");
      					mat = pat.matcher(strLinea);
                 		if(mat.matches()){
-                			//Empezo con ETIQUETA  C:\Users\PCX\Documents\JULIETAJAVA\Archivo.ASM
+                			//Empezo con ETIQUETA  C:\Users\PCX\J_Repositorio\Practica_1\Archivo.ASM
                 			
                 			System.out.println ("Empezo con ETIQUETA");
+                			if (st.countTokens()== 1){
+                				edoERROR = true;
+                				System.out.println("ERROR la linea solo contiene etiqueta");
+                			}
+                			else
                 			linea_ens.validarEtiqueta(st,linea_ens);
                 			
                 			System.out.println(linea_ens.etq +" " + " " + linea_ens.codop);
@@ -243,11 +249,16 @@ public class Linea {
                 	if((linea_ens.codop).equalsIgnoreCase("END")){
                 		banderaEnd = true;
                 	}
-                	
-                	            		
-            		System.out.println();
-                	System.out.println(linea_ens.etq +" " + " " + linea_ens.codop +" " + " " + linea_ens.oper );
-                	System.out.println();
+                	//C:\Users\PCX\J_Repositorio\Practica_1\Archivo.ASM
+                	if (linea_ens.etq.equals("NULL") && linea_ens.codop.equals("NULL") && linea_ens.oper.equals("NULL") || banderaEnd == true || edoERROR == true){
+                		//no imp
+                	}
+                	else{
+                		/*System.out.println();
+                		System.out.println(numeroLinea + " " + linea_ens.etq +" " + " " + linea_ens.codop +" " + " " + linea_ens.oper );
+                		System.out.println();*/
+                		archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\r\n");
+                	}
                 		
                 }
            		// Cerrar archivos
