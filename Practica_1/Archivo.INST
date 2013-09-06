@@ -1,8 +1,9 @@
 LINEA		ETQ		CODOP		OPER
 --------------------------------------------------------
-2		NULL		ORG		%00001111
-4		Et1		equ		$ffFF
-5		dos		LDAA		@4732
-6		NULL		SWI		NULL
-8		NULL		DS.b.		%0011000011111100
-11		tres		sWi		NULL
+4		NULL		ORG		%00001111
+6		Et1		equ		$ffFF
+7		dos		LDAA		@4732
+9		NULL		d.ddd		$42ds4fsd4sd_
+10		NULL		SWI		NULL
+12		NULL		DS.b.		%0011000011111100
+17		tres		sWi		NULL

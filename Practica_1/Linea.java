@@ -39,12 +39,16 @@ public class Linea {
     		if(mat.matches()){
     			System.out.println("Si es una etiqueta");
     			linea_ens.etq = contenido;
-    			while (str.hasMoreTokens()) {
+    			while (str.hasMoreTokens() && edoERROR == false) {
                 				contenido = str.nextToken();
                 				if(contenido.matches("^[a-zA-Z].*")){
                 					System.out.println(contenido);
                 					System.out.println("VAS PARA CODOP");
                 					edoERROR = linea_ens.validarCodigo(str,contenido,linea_ens,edoERROR,archErr,numeroLinea);
+                				}
+                				else{
+                					edoERROR = true;
+    								linea_ens.guardarError(archErr,"ERROR la Etiqueta solo puede empezar con letra",numeroLinea);
                 				} 
                 			}
     		}
@@ -65,7 +69,7 @@ public class Linea {
     	System.out.println(contenido);
     	Pattern pat = Pattern.compile("^[a-zA-Z].*");
      	Matcher mat = pat.matcher(contenido);
-    	if(contenido.length()<=5){
+    	if(contenido.length()<=5 && edoERROR == false){
     		if(mat.matches()){
     			System.out.println("Va por buen camino en codop");
     			StringTokenizer palCODOP = new StringTokenizer(contenido,".",false); //con false omiti tomar como token el punto
@@ -98,14 +102,14 @@ public class Linea {
  				}
  				else{
  					edoERROR = true;
- 					linea_ens.guardarError(archErr,"ERROR el codigo de operacion solo puede contener caracteres alfanumericos y/o un punto",numeroLinea);
+ 					linea_ens.guardarError(archErr,"ERROR el codigo de operacion solo puede contener letras y/o un punto",numeroLinea);
  				}		
     		}
     		else{
     			edoERROR = true;
     			linea_ens.guardarError(archErr,"ERROR el codigo de operacion solo puede empezar con letras mayusculas o minusculas",numeroLinea);
     		}
-    		while (str.hasMoreTokens()) {
+    		while (str.hasMoreTokens() && edoERROR == false) {
     			contenido = str.nextToken();
     			linea_ens.validarOperando(contenido,linea_ens);
        		}
@@ -206,12 +210,8 @@ public class Linea {
         	System.out.println("Tamaño             "+fichero.length());*/
         	
         	try{
-        		// Abrimos el archivo
-            	FileInputStream fstream = new FileInputStream(fichero.getName());
-           	 	// Creamos el objeto de entrada
-            	DataInputStream entrada = new DataInputStream(fstream);
-           		// Creamos el Buffer de Lectura
-            	BufferedReader buffer = new BufferedReader(new InputStreamReader(entrada));
+        		RandomAccessFile archivo = new RandomAccessFile(ruta,"rw");
+    			archivo.seek(0);
             	
             	String strLinea;
             	
@@ -225,7 +225,8 @@ public class Linea {
         		archInst.write("--------------------------------------------------------\r\n");
             	
             	// Leer el archivo linea por linea
-            	while ((strLinea = buffer.readLine()) != null && banderaEnd == false){
+            	while (archivo.getFilePointer()!=archivo.length() && banderaEnd == false){
+            		strLinea=archivo.readLine();
             		
             		numeroLinea++;
             		edoERROR = false;
@@ -247,6 +248,7 @@ public class Linea {
                 	//Veo con que empieza la linea para ir a los metodos
                 	Pattern pat = Pattern.compile("^;.*"); //Espresion regular
      				Matcher mat = pat.matcher(strLinea); //Coincidencia a partir del patron
+     			  if(st.countTokens() != 0){	
                 	if(mat.matches()){
                 		//La linea es un comentario
                 		System.out.println ("Empezo conCOMENTARIO");
@@ -276,37 +278,50 @@ public class Linea {
                 			if(mat.matches() && contenido.matches("^[a-zA-Z].*")){
                 				//Empezo con CODOP
                 				System.out.println ("Empezo con  CODOP");
-                				edoERROR = linea_ens.validarCodigo(st,contenido,linea_ens,edoERROR,archErr,numeroLinea);
-                				
+                				edoERROR = linea_ens.validarCodigo(st,contenido,linea_ens,edoERROR,archErr,numeroLinea);	
                 			}
+                			else{
+                				edoERROR = true;
+    							linea_ens.guardarError(archErr,"ERROR la Etiqueta debe empezar con letra",numeroLinea);
+                			}
+                				
                 		}			
                 	}
+                	
+                	System.out.println("jajaaaa\n"+edoERROR+"jajajaaj\n\n");
                 	if((linea_ens.codop).equalsIgnoreCase("END")){
                 		banderaEnd = true;
                 	}
+                  }
                 	//C:\Users\PCX\J_Repositorio\Practica_1\Archivo.ASM
-                	if (linea_ens.etq.equals("NULL") && linea_ens.codop.equals("NULL") && linea_ens.oper.equals("NULL") || banderaEnd == true || edoERROR == true){
+                	if ((linea_ens.etq.equals("NULL") && linea_ens.codop.equals("NULL") && linea_ens.oper.equals("NULL")) || banderaEnd == true || edoERROR == true){
                 		//no imp
                 	}
                 	else{
+                		
+                		System.out.println("Entro a escribir");
                 		/*System.out.println();
                 		System.out.println(numeroLinea + " " + linea_ens.etq +" " + " " + linea_ens.codop +" " + " " + linea_ens.oper );
                 		System.out.println();*/
                 		archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\r\n");
                 	}
-                		
-                }
+            	  }		
+                
                 if (banderaEnd == false){
+                	edoERROR = true;
                 	linea_ens.errorEnd(archErr,"ERROR no se encuentra la directiva END");
                 }
            		// Cerrar archivos
-            	entrada.close();
+            	archivo.close();
             	archErr.close();
             	archInst.close();
             }catch (Exception e){ //Catch de excepciones
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
         }
+        else{
+        	System.out.println("\nEl archivo no existe o tiene la extension incorrecta, VERIFIQUELO...");
+        } 
         
         
     }
