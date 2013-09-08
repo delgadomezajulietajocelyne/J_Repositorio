@@ -74,6 +74,10 @@ public class Linea {
     			System.out.println("Va por buen camino en codop");
     			StringTokenizer palCODOP = new StringTokenizer(contenido,".",false); //con false omiti tomar como token el punto
  				System.out.println("Hay un total de: "+palCODOP.countTokens()+" tokens.");
+ 				int vecespunto;
+ 				vecespunto = contarPuntos(contenido, '.');
+ 				System.out.println("vecespunto: " + vecespunto);
+ 				if(vecespunto == 1 || vecespunto == 0)
  				if((palCODOP.countTokens() == 1) || (palCODOP.countTokens() == 2)){
  					switch (palCODOP.countTokens()){
  						case 1: if((palCODOP.nextToken()).matches("[a-zA-Z]+")){
@@ -103,7 +107,11 @@ public class Linea {
  				else{
  					edoERROR = true;
  					linea_ens.guardarError(archErr,"ERROR el codigo de operacion solo puede contener letras y/o un punto",numeroLinea);
- 				}		
+ 				}
+ 				else {// este es de si hay más puntos en vecespuntos
+ 					edoERROR = true;
+ 					linea_ens.guardarError(archErr,"ERROR el codigo de operacion solo puede contener letras y/o un punto",numeroLinea);	
+ 				}	
     		}
     		else{
     			edoERROR = true;
@@ -120,6 +128,17 @@ public class Linea {
     	}
     	return edoERROR;
     }
+    
+    public int contarPuntos(String cadena, char caracter){
+		int veces=0;
+		int i;
+		for (i=0;i<cadena.length();i++){
+			if (cadena.charAt(i)==caracter){
+				veces++;
+			}
+		}
+		return veces;
+	}
     
     public void validarOperando(String contenido,Linea linea_ens){
     	System.out.println("jajajajajaa");
