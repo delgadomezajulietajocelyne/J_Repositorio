@@ -16,7 +16,7 @@ import java.util.regex.*; // Para expresiones regulares
 import java.util.StringTokenizer; //para separar los elementos de la linea
 
 public class Linea {
-        
+
     //atributos
 	String etq;
 	String codop;
@@ -29,7 +29,7 @@ public class Linea {
     	codop = c;
     	oper = o;
     }
-    
+
     public boolean validarEtiqueta(StringTokenizer str, Linea linea_ens, boolean edoERROR, FileWriter archErr,int numeroLinea){
     	String contenido = new String (str.nextToken());
     	Pattern pat = Pattern.compile("[a-zA-Z0-9_]+");
@@ -44,23 +44,23 @@ public class Linea {
                 				}
                 				else{
                 					edoERROR = true;
-    								linea_ens.guardarError(archErr,"ERROR la Etiqueta solo puede empezar con letra",numeroLinea);
-                				} 
+    								linea_ens.guardarError(archErr,"ERROR El codigo de operacion puede empezar con letra",numeroLinea);
+                				}
                 			}
     		}
     		else{
     			edoERROR = true;
     			linea_ens.guardarError(archErr,"ERROR la Etiqueta contiene caracteres no alfanumericos",numeroLinea);
     		}
-    				
+
     	}
     	else{
     		edoERROR = true;
     		linea_ens.guardarError(archErr,"ERROR la Etiqueta contiene mas de 8 caracteres",numeroLinea);
     	}
-    	return edoERROR;	
+    	return edoERROR;
     }
-    
+
     public boolean validarCodigo(StringTokenizer str, String contenido, Linea linea_ens, boolean edoERROR, FileWriter archErr,int numeroLinea){
     	Pattern pat = Pattern.compile("^[a-zA-Z].*");
      	Matcher mat = pat.matcher(contenido);
@@ -79,9 +79,9 @@ public class Linea {
  									edoERROR = true;
  									linea_ens.guardarError(archErr,"ERROR el codigo de operacion solo puede contener caracteres alfanumericos y/o un punto",numeroLinea);
  								}
- 									
+
  							break;
- 						
+
  						case 2: if((palCODOP.nextToken()).matches("[a-zA-Z]+")){
  									if((palCODOP.nextToken()).matches("[a-zA-Z]+")){
  										linea_ens.codop = contenido;
@@ -91,19 +91,19 @@ public class Linea {
  									edoERROR = true;
  									linea_ens.guardarError(archErr,"ERROR el codigo de operacion solo puede contener caracteres alfanumericos y/o un punto",numeroLinea);
  								}
- 									
- 							break; 						
+
+ 							break;
  					}
- 						
+
  				}
  				else{
  					edoERROR = true;
  					linea_ens.guardarError(archErr,"ERROR el codigo de operacion solo puede contener letras y/o un punto",numeroLinea);
  				}
- 				else {// este es de si hay m·s puntos en vecespuntos
+ 				else {// este es de si hay m√°s puntos en vecespuntos
  					edoERROR = true;
- 					linea_ens.guardarError(archErr,"ERROR el codigo de operacion solo puede contener letras y/o un punto",numeroLinea);	
- 				}	
+ 					linea_ens.guardarError(archErr,"ERROR el codigo de operacion solo puede contener letras y/o un punto",numeroLinea);
+ 				}
     		}
     		else{
     			edoERROR = true;
@@ -120,7 +120,7 @@ public class Linea {
     	}
     	return edoERROR;
     }
-    
+
     public int contarPuntos(String cadena, char caracter){
 		int veces=0;
 		int i;
@@ -131,26 +131,32 @@ public class Linea {
 		}
 		return veces;
 	}
-    
+
     public boolean validarOperando(StringTokenizer str,String contenido,Linea linea_ens,boolean edoERROR,FileWriter archErr,int numeroLinea ){
     	if(contenido.matches("^;.*")){
     		linea_ens.validarComentario(linea_ens);
         }
-        else 
-        	if(contenido.matches(".+") && !str.hasMoreTokens()){
+        else
+        	if(contenido.matches(".+")){
         		linea_ens.oper = contenido;
-        	} 
-        	else{
-        		edoERROR = true;
-    			linea_ens.guardarError(archErr,"ERROR los operandos deben de ir separados por comas, no por espacios",numeroLinea);
         	}
-        return edoERROR;	
+        	if(str.hasMoreTokens()){
+        		contenido = str.nextToken();
+        		if(contenido.matches("^;.*"))
+        			validarComentario(linea_ens);
+        		else{
+        			edoERROR = true;
+    				linea_ens.guardarError(archErr,"ERROR los operandos deben de ir separados por comas, no por espacios",numeroLinea);
+        		}
+        	}
+
+        return edoERROR;
     }
-    
+
     public void validarComentario(Linea linea_ens){
     	linea_ens = new Linea("NULL","NULL","NULL");
     }
-    
+
     public void guardarError(FileWriter archErr, String error, int numeroLinea){
     	try{
     		archErr.write("Linea "+numeroLinea+": "+error+"\r\n");
@@ -159,21 +165,21 @@ public class Linea {
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
     }
-    
+
     public void errorEnd(FileWriter archErr, String error){
     	try{
     		archErr.write(error+"\r\n");
     	}
     	catch (Exception e){ //Catch de excepciones
             	System.err.println("Ocurrio un error: " + e.getMessage());
-              }	
+              }
     }
-    
+
     public boolean AbrirArchivo(File archivo){
-    	
+
 		String nombre_fichero = archivo.getName(); //obtengo el nombre del fichero
 		int pos = nombre_fichero.lastIndexOf('.'); //me posiciono en el punto y obtengo la posicion
-		String extension = nombre_fichero.substring(pos+1); //me posiciono despuÈs del punto
+		String extension = nombre_fichero.substring(pos+1); //me posiciono despu√©s del punto
 
     	if(archivo.exists() && extension.equalsIgnoreCase("ASM")){
         	return true;
@@ -181,54 +187,54 @@ public class Linea {
    		else
    			return false;
     }
-    
+
     public static void main(String[] args) {
        	Linea linea_ens=new Linea("NULL","NULL","NULL");
        	String ruta = new String();
        	boolean existeono, banderaEnd = false, edoERROR = false;
        	int numeroLinea = 0;
-    
+
     	Scanner teclado=new Scanner(System.in);
-    	
+
     	System.out.print("Escribe la ruta del archivo *.ASM: ");
         ruta = teclado.next();
-    	
+
     	File fichero=new File(ruta);
         existeono = linea_ens.AbrirArchivo(fichero);
-        
+
         File archivoInst=new File((fichero.getName()).substring(0,(fichero.getName()).lastIndexOf('.'))+".INST");
         if (archivoInst.exists()) {
         	archivoInst.delete();
         }
-        
+
         File archivoErrores=new File((fichero.getName()).substring(0,(fichero.getName()).lastIndexOf('.'))+".ERR");
         if (archivoErrores.exists()) {
         	archivoErrores.delete();
         }
-       
+
         if(existeono){
         	try{
         		RandomAccessFile archivo = new RandomAccessFile(ruta,"rw");
     			archivo.seek(0);
-            	
+
             	String strLinea;
-            	
+
             	//Para archivo Errores
             	FileWriter archErr = new FileWriter(archivoErrores,true);
         		archErr.write("ERRORES---------------\r\n\r\n");
-        		
+
         		//Para archivo INST
             	FileWriter archInst = new FileWriter(archivoInst,true);
         		archInst.write("LINEA\t\tETQ\t\tCODOP\t\tOPER\r\n");
         		archInst.write("--------------------------------------------------------\r\n");
-            	
+
             	// Leer el archivo linea por linea
             	while (archivo.getFilePointer()!=archivo.length() && banderaEnd == false){
             		strLinea=archivo.readLine();
-            		
+
             		numeroLinea++;
             		edoERROR = false;
-            		
+
                 	linea_ens.etq = "NULL";
             		linea_ens.codop = "NULL";
             		linea_ens.oper = "NULL";
@@ -238,10 +244,10 @@ public class Linea {
                 	//Veo con que empieza la linea para ir a los metodos
                 	Pattern pat = Pattern.compile("^;.*"); //Espresion regular
      				Matcher mat = pat.matcher(strLinea); //Coincidencia a partir del patron
-     			  	if(st.countTokens() != 0){	
+     			  	if(st.countTokens() != 0){
                 		if(mat.matches()){
                 			//La linea es un comentario
-                			linea_ens.validarComentario(linea_ens);		
+                			linea_ens.validarComentario(linea_ens);
                 		}
                 		else{
                 			pat = Pattern.compile("^[a-zA-Z].*");
@@ -256,22 +262,29 @@ public class Linea {
                 					edoERROR = linea_ens.validarEtiqueta(st,linea_ens,edoERROR,archErr,numeroLinea);
                 			}
                 			else{
-                				pat = Pattern.compile("^[\t ].*"); //Espresion regular
-     							mat = pat.matcher(strLinea); //Coincidencia a partir del patron
-     							String contenido = new String (st.nextToken());
-                				if(mat.matches() && contenido.matches("^[a-zA-Z].*")){
-                					//Empezo con CODOP
-                					edoERROR = linea_ens.validarCodigo(st,contenido,linea_ens,edoERROR,archErr,numeroLinea);	
-                				}
-                				else{
-                					edoERROR = true;
-    								linea_ens.guardarError(archErr,"ERROR la Etiqueta debe empezar con letra",numeroLinea);
-                				}
-                				
-                			}			
+                					pat = Pattern.compile("^[\t ].*"); //Espresion regular
+     								mat = pat.matcher(strLinea); //Coincidencia a partir del patron
+
+     								String contenido = new String (st.nextToken());
+                					if(mat.matches() && contenido.matches("^[a-zA-Z].*")){
+                						//Empezo con CODOP
+
+                						edoERROR = linea_ens.validarCodigo(st,contenido,linea_ens,edoERROR,archErr,numeroLinea);
+                					}
+                					else
+                						if(contenido.matches("^;.*"))
+                							linea_ens.validarComentario(linea_ens);
+
+                						else{
+                								edoERROR = true;
+    											linea_ens.guardarError(archErr,"ERROR la etiqueta debe empezar con letra",numeroLinea);
+                						}
+
+                			}
                 		}
                 		if((linea_ens.codop).equalsIgnoreCase("END")){
                 			banderaEnd = true;
+                			archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\r\n");
                 		}
                   	}
                 	if ((linea_ens.etq.equals("NULL") && linea_ens.codop.equals("NULL") && linea_ens.oper.equals("NULL")) || banderaEnd == true || edoERROR == true){
@@ -280,8 +293,8 @@ public class Linea {
                 	else{
                 		archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\r\n");
                 	}
-            	  }		
-                
+            	  }
+
                 if (banderaEnd == false){
                    	edoERROR = true;
                 	linea_ens.errorEnd(archErr,"ERROR no se encuentra la directiva END");
@@ -296,6 +309,6 @@ public class Linea {
         }
         else{
         	System.out.println("\nEl archivo no existe o tiene la extension incorrecta, VERIFIQUELO...");
-        }    
+        }
     }
 }
