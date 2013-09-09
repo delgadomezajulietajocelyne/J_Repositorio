@@ -1,5 +1,6 @@
 ERRORES---------------
 
+Linea 4: ERROR los operandos deben de ir separados por comas, no por espacios
 Linea 7: ERROR el codigo de operacion solo puede contener letras y/o un punto
 Linea 8: ERROR el codigo de operacion solo puede contener caracteres alfanumericos y/o un punto
 Linea 9: ERROR la Etiqueta debe empezar con letra

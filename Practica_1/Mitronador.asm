@@ -1,8 +1,8 @@
 
 ; comentario valido :D
 
-Hola_		CoD.j	$adfsafssd
-ho_l1a		c.OD	1.sfsfd
+Hola_		CoD.j	$adfsafssd dsfasfd dfad
+ho_l1a		c.OD	1.sfsfd,hhh
 
 mff		c..d	fa22..2653f
 mdd		d_dd	1111

@@ -111,7 +111,7 @@ public class Linea {
     		}
     		while (str.hasMoreTokens() && edoERROR == false) {
     			contenido = str.nextToken();
-    			linea_ens.validarOperando(contenido,linea_ens);
+    			edoERROR = linea_ens.validarOperando(str,contenido,linea_ens,edoERROR,archErr,numeroLinea);
        		}
     	}
     	else{
@@ -132,14 +132,19 @@ public class Linea {
 		return veces;
 	}
     
-    public void validarOperando(String contenido,Linea linea_ens){
+    public boolean validarOperando(StringTokenizer str,String contenido,Linea linea_ens,boolean edoERROR,FileWriter archErr,int numeroLinea ){
     	if(contenido.matches("^;.*")){
     		linea_ens.validarComentario(linea_ens);
         }
         else 
-        	if(contenido.matches(".+")){
+        	if(contenido.matches(".+") && !str.hasMoreTokens()){
         		linea_ens.oper = contenido;
         	} 
+        	else{
+        		edoERROR = true;
+    			linea_ens.guardarError(archErr,"ERROR los operandos deben de ir separados por comas, no por espacios",numeroLinea);
+        	}
+        return edoERROR;	
     }
     
     public void validarComentario(Linea linea_ens){
