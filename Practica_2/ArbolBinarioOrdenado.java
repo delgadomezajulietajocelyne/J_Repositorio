@@ -42,20 +42,22 @@ public class ArbolBinarioOrdenado {
           }
           contenido = st.nextToken();
           nuevo.modosdir.add(contenido);
-          contenido = st.nextToken();
-          nuevo.codmaqenhex = contenido;		// Código maquina en hexadecimal
-          contenido = st.nextToken();
-          nuevo.bytesporlasminus = contenido; 	// Bytes por calcular
-          contenido = st.nextToken();
-          nuevo.sumabytes = contenido; 			// Suma total de bytes
-          contenido = st.nextToken();
-          nuevo.bytesporlohex = contenido; 		// Bytes calculados
+          
           nuevo.izq = null;
           nuevo.der = null;
-          
-          //System.out.print(nuevo.info + " " +nuevo.codop + " "+nuevo.modosdir);
-          if (raiz == null)
-              raiz = nuevo;
+
+          if (raiz == null){
+          	contenido = st.nextToken();
+          	nuevo.codmaqenhex = contenido;		// Código maquina en hexadecimal
+          	contenido = st.nextToken();
+          	nuevo.bytesporlasminus = contenido; 	// Bytes por calcular
+          	contenido = st.nextToken();
+          	nuevo.sumabytes = contenido; 			// Suma total de bytes
+          	contenido = st.nextToken();
+          	nuevo.bytesporlohex = contenido; 		// Bytes calculados
+          	raiz = nuevo;
+          }
+              
           else {
               
               Nodo anterior = null, reco;
@@ -69,22 +71,45 @@ public class ArbolBinarioOrdenado {
                       reco = reco.der;
                     else
                     	if(nuevo.codop.compareTo(reco.codop)==0){
-                    		//System.out.println("ENTROOO");
-                  		//reco.modosdir.add(contenido);
-                  		reco=null;
+                    		reco=null;
                   	}
                       
               }
               
-              if (nuevo.codop.compareTo(anterior.codop) <0)
-                  anterior.izq = nuevo;
+              if (nuevo.codop.compareTo(anterior.codop) <0){
+              	contenido = st.nextToken();
+          		nuevo.codmaqenhex = contenido;		// Código maquina en hexadecimal
+          		contenido = st.nextToken();
+          		nuevo.bytesporlasminus = contenido; 	// Bytes por calcular
+          		contenido = st.nextToken();
+          		nuevo.sumabytes = contenido; 			// Suma total de bytes
+          		contenido = st.nextToken();
+          		nuevo.bytesporlohex = contenido; 		// Bytes calculados
+              	anterior.izq = nuevo;
+              }
               else
-              	if (nuevo.codop.compareTo(anterior.codop)>0)
-                  anterior.der = nuevo;
+              	if (nuevo.codop.compareTo(anterior.codop)>0) {
+              		contenido = st.nextToken();
+          		  	nuevo.codmaqenhex = contenido;		// Código maquina en hexadecimal
+          		  	contenido = st.nextToken();
+          		  	nuevo.bytesporlasminus = contenido; 	// Bytes por calcular
+          		  	contenido = st.nextToken();
+          		  	nuevo.sumabytes = contenido; 			// Suma total de bytes
+          		  	contenido = st.nextToken();
+          		  	nuevo.bytesporlohex = contenido; 		// Bytes calculados
+                  	anterior.der = nuevo;
+              	}
                   else
                   	if(nuevo.codop.compareTo(anterior.codop)==0) {
-                  		//System.out.println("aqui");
                   		anterior.modosdir.add(contenido);
+                  		contenido = st.nextToken();
+          				nuevo.codmaqenhex = contenido;		// Código maquina en hexadecimal
+          				contenido = st.nextToken();
+          				nuevo.bytesporlasminus = contenido; 	// Bytes por calcular
+          				contenido = st.nextToken();
+          				nuevo.sumabytes = contenido; 			// Suma total de bytes
+          				contenido = st.nextToken();
+          				nuevo.bytesporlohex = contenido; 		// Bytes calculados
                   		anterior=nuevo;
                   	}
           }
@@ -148,40 +173,48 @@ public class ArbolBinarioOrdenado {
           abo.imprimirPost ();        
       }
       
-      public boolean existe(Linea linea_ens,FileWriter archInst, int numeroLinea) {
+      public boolean existe(Linea linea_ens,FileWriter archInst, int numeroLinea, FileWriter archErr) {
         Nodo reco=raiz;
         try{
-        
-        while (reco!=null) {
-            if (linea_ens.codop.equalsIgnoreCase(reco.codop)) {
-            	
-            	System.out.println(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+" ");
-                		for(int i = 0;i<reco.modosdir.size();i++){
-              	System.out.print(reco.modosdir.get(i));
-              	if((i+1)!= reco.modosdir.size()){
-              		System.out.print(", ");
-              	}
-			  }
-			  System.out.println();
+        	while (reco!=null) {
+        		if (linea_ens.codop.equalsIgnoreCase(reco.codop)) {
+                	if (reco.existeoperando == true && !linea_ens.oper.equals("NULL")) {
                 		archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\t\t");
                 		for(int i = 0;i<reco.modosdir.size();i++){
                 			archInst.write((String)reco.modosdir.get(i));
-              				if((i+1)!= reco.modosdir.size()){
-              					archInst.write(", ");
+                			if((i+1)!= reco.modosdir.size()){
+                				archInst.write(", ");
               				}
               			}
-                			archInst.write("\r\n");
-            	return true;
-            }
-            else{
-            	
-                if (linea_ens.codop.compareTo(reco.codop)>0)
-                    reco=reco.der;
-                else
-                    reco=reco.izq;
-            }
+                		archInst.write("\r\n");
+                	}
+                	else
+                		if (reco.existeoperando == true && linea_ens.oper.equals("NULL"))
+                			linea_ens.guardarError(archErr,"ERROR la linea deberia de contener operando",numeroLinea);
+                		else
+                			if (reco.existeoperando == false && !linea_ens.oper.equals("NULL"))
+                				linea_ens.guardarError(archErr,"ERROR El codigo de operacion no debe contener operando",numeroLinea);
+                				else
+                					if (reco.existeoperando == false && linea_ens.oper.equals("NULL")){
+                						archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\t\t");
+                		for(int i = 0;i<reco.modosdir.size();i++){
+                			archInst.write((String)reco.modosdir.get(i));
+                			if((i+1)!= reco.modosdir.size()){
+                				archInst.write(", ");
+              				}
+              			}
+                		archInst.write("\r\n");
+                					}
+            		return true;
+            	}
+            	else{
+            		if (linea_ens.codop.compareTo(reco.codop)>0)
+                	    reco=reco.der;
+                	else
+                    	reco=reco.izq;
+            	}
             
-        }
+        	}
         }catch (Exception e){ //Catch de excepciones
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }

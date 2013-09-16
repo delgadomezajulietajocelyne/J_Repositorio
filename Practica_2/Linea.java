@@ -327,28 +327,17 @@ public class Linea {
                 	}
                 	else{
                 		//ArrayList modosdirec = new ArrayList();
-                		boolean exist = abo.existe(linea_ens, archInst,numeroLinea);
-                		if (exist == false){
-                			linea_ens.guardarError(archErr,"ERROR El Codigo de Operacion no existe en el TABOP",numeroLinea);
-                			//archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\r\n");
+                		if(linea_ens.codop.equalsIgnoreCase("ORG")){
+                			archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\r\n");
                 		}
-                	/*	System.out.println(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+" "+exist);
-                		for(int i = 0;i<modosdirec.size();i++){
-              	System.out.print(modosdirec.get(i));
-              	if((i+1)!= modosdirec.size()){
-              		System.out.print(", ");
-              	}
-			  }
-			  System.out.println();
-                		archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\t\t");
-                		for(int i = 0;i<modosdirec.size();i++){
-                			archInst.write((String)modosdirec.get(i));
-              				if((i+1)!= modosdirec.size()){
-              					archInst.write(", ");
-              				}
-              			}
-                			archInst.write("\r\n");*/
+                		else {
+                			boolean exist = abo.existe(linea_ens, archInst,numeroLinea,archErr);
+                			if (exist == false){
+                				linea_ens.guardarError(archErr,"ERROR El Codigo de Operacion no existe en el TABOP",numeroLinea);
+                				//archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\r\n");
+                			}
                 		}
+                	}
             	  }
 
                 if (banderaEnd == false){
@@ -358,8 +347,8 @@ public class Linea {
            		// Cerrar archivos
             	archivo.close();
             	archErr.close();
-            	archInst.close();//F:\Practica_2\tronador01_2013b.asm
-            //	F:\Practica_2\TABOP.txt
+            	archInst.close();//C:\Users\PCX\J_Repositorio\Practica_2\tronador01_2013b.asm
+            //	C:\Users\PCX\J_Repositorio\Practica_2\TABOP.txt
             	
             	
             	

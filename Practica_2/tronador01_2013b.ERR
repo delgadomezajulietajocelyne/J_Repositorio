@@ -1,15 +1,11 @@
 ERRORES---------------
 
-Linea 4: ERROR la linea solo contiene etiqueta
-Linea 5: ERROR Codigo de Operacion invalido
-Linea 10: ERROR la Etiqueta contiene mas de 8 caracteres
-Linea 11: ERROR la etiqueta debe empezar con letra
-Linea 12: ERROR la Etiqueta contiene caracteres no alfanumericos
-Linea 13: ERROR El codigo de operacion puede empezar con letra
-Linea 14: ERROR Codigo de Operacion invalido
-Linea 15: ERROR Codigo de Operacion invalido
-Linea 16: ERROR el codigo de operacion solo puede contener letras y/o un punto
-Linea 18: ERROR la linea solo contiene etiqueta
-Linea 20: ERROR el codigo de operacion solo puede contener caracteres alfanumericos y/o un punto
-Linea 22: ERROR los operandos deben de ir separados por comas, no por espacios
-Linea 25: ERROR los operandos deben de ir separados por comas, no por espacios
+Linea 1: ERROR la etiqueta debe empezar con letra
+Linea 5: ERROR la linea deberia de contener operando
+Linea 8: ERROR El Codigo de Operacion no existe en el TABOP
+Linea 10: ERROR El Codigo de Operacion no existe en el TABOP
+Linea 11: ERROR El Codigo de Operacion no existe en el TABOP
+Linea 12: ERROR la linea solo contiene etiqueta
+Linea 13: ERROR El Codigo de Operacion no existe en el TABOP
+Linea 15: ERROR los operandos deben de ir separados por comas, no por espacios
+Linea 18: ERROR los operandos deben de ir separados por comas, no por espacios
