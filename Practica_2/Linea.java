@@ -100,7 +100,7 @@ public class Linea {
  					edoERROR = true;
  					linea_ens.guardarError(archErr,"ERROR el codigo de operacion solo puede contener letras y/o un punto",numeroLinea);
  				}
- 				else {// este es de si hay más puntos en vecespuntos
+ 				else {// este es de si hay mas puntos en vecespuntos
  					edoERROR = true;
  					linea_ens.guardarError(archErr,"ERROR el codigo de operacion solo puede contener letras y/o un punto",numeroLinea);
  				}
@@ -192,24 +192,19 @@ public class Linea {
     	String path;
     	System.out.print("Escribe la ruta del TABOP: ");
         path = teclado.next();
-        System.out.println(path);
         String strLinea2;
 		File fich = new File(path);
-		if(fich.exists())
-        	System.out.println(path);
         try{
         		
         		RandomAccessFile fichero = new RandomAccessFile(path,"rw");
     			
     			fichero.seek(0);
-    			System.out.println(path);
     			while (fichero.getFilePointer()!=fichero.length()){
             		strLinea2=fichero.readLine();
             		//System.out.println(strLinea2);
                 	StringTokenizer st = new StringTokenizer(strLinea2,"|",false); //con false omiti tomar como token el espacio y el tabulador
     				abo.insertar (st);          	
     			}
-    			abo.IMPRIME(abo);
     			fichero.close();
     		}catch (Exception e){  //Catch de excepciones
     			System.err.println("Ocurrio un error: " + e.getMessage());
@@ -283,7 +278,7 @@ public class Linea {
                 			linea_ens.validarComentario(linea_ens);
                 		}
                 		else{
-                			System.out.println(strLinea);
+                			//System.out.println(strLinea);
                 			pat = Pattern.compile("^[a-zA-Z].*");
      						mat = pat.matcher(strLinea);
                 			if(mat.matches()){
@@ -326,7 +321,6 @@ public class Linea {
                 		//no imp
                 	}
                 	else{
-                		//ArrayList modosdirec = new ArrayList();
                 		if(linea_ens.codop.equalsIgnoreCase("ORG")){
                 			archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\r\n");
                 		}
@@ -334,7 +328,6 @@ public class Linea {
                 			boolean exist = abo.existe(linea_ens, archInst,numeroLinea,archErr);
                 			if (exist == false){
                 				linea_ens.guardarError(archErr,"ERROR El Codigo de Operacion no existe en el TABOP",numeroLinea);
-                				//archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\r\n");
                 			}
                 		}
                 	}
@@ -347,10 +340,7 @@ public class Linea {
            		// Cerrar archivos
             	archivo.close();
             	archErr.close();
-            	archInst.close();//C:\Users\PCX\J_Repositorio\Practica_2\tronador01_2013b.asm
-            //	C:\Users\PCX\J_Repositorio\Practica_2\TABOP.txt
-            	
-            	
+            	archInst.close();
             	
             }catch (Exception e){ //Catch de excepciones
             	System.err.println("Ocurrio un error: " + e.getMessage());
@@ -359,6 +349,5 @@ public class Linea {
         else{
         	System.out.println("\nEl archivo no existe o tiene la extension incorrecta, VERIFIQUELO...");
         }
-        
     }
 }

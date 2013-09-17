@@ -1,0 +1,5 @@
+LINEA		ETQ		CODOP		OPER		MODOS DE DIRECCIONAMIENTO		
+---------------------------------------------------------------------------------
+1		NULL		ORG		$AB
+2		NULL		SWI		NULL		INH
+4		NULL		ADCA		1,X		IMM, DIR, EXT, IDX, IDX1, IDX2, [D,IDX], [IDX2]

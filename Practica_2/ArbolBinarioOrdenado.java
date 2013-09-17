@@ -197,13 +197,13 @@ public class ArbolBinarioOrdenado {
                 				else
                 					if (reco.existeoperando == false && linea_ens.oper.equals("NULL")){
                 						archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\t\t");
-                		for(int i = 0;i<reco.modosdir.size();i++){
-                			archInst.write((String)reco.modosdir.get(i));
-                			if((i+1)!= reco.modosdir.size()){
-                				archInst.write(", ");
-              				}
-              			}
-                		archInst.write("\r\n");
+                						for(int i = 0;i<reco.modosdir.size();i++){
+                							archInst.write((String)reco.modosdir.get(i));
+                							if((i+1)!= reco.modosdir.size()){
+                								archInst.write(", ");
+              								}
+              							}
+                						archInst.write("\r\n");
                 					}
             		return true;
             	}
