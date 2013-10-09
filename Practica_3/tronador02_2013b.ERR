@@ -1,0 +1,10 @@
+ERRORES---------------
+
+Linea 1: ERROR El codigo de operacion no debe contener operando
+Linea 2: ERROR El Codigo de Operacion no existe en el TABOP
+Linea 7: ERROR El Codigo de Operacion no existe en el TABOP
+Linea 8: ERROR El Codigo de Operacion no existe en el TABOP
+Linea 9: ERROR Formato de operando inválido para ningun modo de direccionamiento
+Linea 13: ERROR Operando fuera de rango para modo REL8
+Linea 18: ERROR la linea deberia de contener operando
+ERROR no se encuentra la directiva END

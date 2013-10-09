@@ -1,0 +1,18 @@
+ERRORES---------------
+
+Linea 24: ERROR Formato de operador incorrecto en hexadecimal para IMM8
+Linea 26: ERROR Formato de operador incorrecto en octal para IMM8
+Linea 29: ERROR Operando fuera de rango para IMM8
+Linea 31: ERROR Formato de operador incorrecto en binario para IMM8
+Linea 34: ERROR Formato de operando incorrecto para IMM8
+Linea 38: ERROR Formato de operando inválido para ningun modo de direccionamiento
+Linea 42: ERROR Registro incorrecto para modo IDX de 5 bits
+Linea 44: ERROR Formato de operando inválido para ningun modo de direccionamiento
+Linea 45: ERROR Formato de operando inválido para ningun modo de direccionamiento
+Linea 46: ERROR Formato de operando inválido para ningun modo de direccionamiento
+Linea 54: ERROR Registro incorrecto para modo IDX de 5 bits
+Linea 60: ERROR Operando fuera de rango para IDX
+Linea 63: ERROR Registro incorrecto para modo [D,IDX]
+Linea 64: ERROR Formato de operando incorrecto para [IDX2]
+Linea 69: ERROR Registro incorrecto para modo IDX de 5 bits
+Linea 85: ERROR Registro incorrecto para modo IDX de 5 bits

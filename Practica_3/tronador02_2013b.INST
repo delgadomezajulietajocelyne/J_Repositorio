@@ -1,0 +1,14 @@
+LINEA		ETQ		CODOP		OPER		MODOS DE DIRECCIONAMIENTO		
+---------------------------------------------------------------------------------
+3		NULL		INCA		NULL		INH
+4		E2		LDAA		%11		EXT
+5		NULL		JMP		,PC		IDX
+6		E3		CLRA		NULL		INH
+10		NULL		BRSET		@15		DIR
+11		e4		LDAA		12		DIR
+12		NULL		CLR		10		EXT
+14		NULL		LBLO		0		REL16
+15		NULL		cLc		NULL		IMM
+16		NULL		lbgt		1		REL16
+17		m1		mul		NULL		INH
+19		NULL		tfr		usa		INH
