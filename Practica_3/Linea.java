@@ -187,7 +187,7 @@ public class Linea {
    		else
    			return false;
     }
-    
+
     public void abrirTabop(ArbolBinarioOrdenado abo,Scanner teclado){
     	String path;
     	System.out.print("Escribe la ruta del TABOP: ");
@@ -195,20 +195,20 @@ public class Linea {
         String strLinea2;
 		File fich = new File(path);
         try{
-        		
+
         		RandomAccessFile fichero = new RandomAccessFile(path,"rw");
-    			
+
     			fichero.seek(0);
     			while (fichero.getFilePointer()!=fichero.length()){
             		strLinea2=fichero.readLine();
             		//System.out.println(strLinea2);
                 	StringTokenizer st = new StringTokenizer(strLinea2,"|",false); //con false omiti tomar como token el espacio y el tabulador
-    				abo.insertar (st);          	
+    				abo.insertar (st);
     			}
     			fichero.close();
     		}catch (Exception e){  //Catch de excepciones
     			System.err.println("Ocurrio un error: " + e.getMessage());
-    		 } 
+    		 }
 
     }
 
@@ -242,7 +242,7 @@ public class Linea {
     			archivo.seek(0);
     			//Empiezo con tabop
             	ArbolBinarioOrdenado abo = new ArbolBinarioOrdenado ();
-          
+
             	linea_ens.abrirTabop(abo,teclado);
 
             	String strLinea;
@@ -313,8 +313,13 @@ public class Linea {
                 			}
                 		}
                 		if((linea_ens.codop).equalsIgnoreCase("END")){
-                			banderaEnd = true;
-                			archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\r\n");
+                			if ((linea_ens.oper).equalsIgnoreCase("NULL"))
+                			{
+                				banderaEnd = true;
+                				archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\r\n");
+                			}
+                			else
+                				linea_ens.guardarError(archErr,"ERROR la directiva END no debe contener operando",numeroLinea);
                 		}
                   	}
                 	if ((linea_ens.etq.equals("NULL") && linea_ens.codop.equals("NULL") && linea_ens.oper.equals("NULL")) || banderaEnd == true || edoERROR == true){
@@ -325,9 +330,11 @@ public class Linea {
                 			archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\r\n");
                 		}
                 		else {
-                			boolean exist = abo.existe(linea_ens, archInst,numeroLinea,archErr);
-                			if (exist == false){
-                				linea_ens.guardarError(archErr,"ERROR El Codigo de Operacion no existe en el TABOP",numeroLinea);
+                			if (!linea_ens.codop.equalsIgnoreCase("END")){
+                				boolean exist = abo.existe(linea_ens, archInst,numeroLinea,archErr);
+                				if (exist == false){
+                					linea_ens.guardarError(archErr,"ERROR El Codigo de Operacion no existe en el TABOP",numeroLinea);
+                				}
                 			}
                 		}
                 	}
@@ -335,13 +342,13 @@ public class Linea {
 
                 if (banderaEnd == false){
                    	edoERROR = true;
-                	linea_ens.errorEnd(archErr,"ERROR no se encuentra la directiva END");
+                	linea_ens.errorEnd(archErr,"ERROR no se encuentra la directiva END (con su formato de linea correcto)");
                 }
            		// Cerrar archivos
             	archivo.close();
             	archErr.close();
             	archInst.close();
-            	
+
             }catch (Exception e){ //Catch de excepciones
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
@@ -351,7 +358,7 @@ public class Linea {
         }
     }
 }
-//F:\Practica_3\miarch.asm
+//F:\tronador03_2013a.asm
 //F:\Practica_3\TABOP.txt
 
 //F:\tronador02_2013b.asm

@@ -34,7 +34,7 @@ public class Operador {
               	}
     		}
             if (inherente.equals("INH") && !oper.equals("NULL")) {
-            	
+
             	if (oper.length()<=8 && oper.matches ("^[a-zA-Z].*") && oper.matches("[a-zA-Z0-9_]+")){
     				System.out.println("Oper etiqueta");
     				try{
@@ -47,7 +47,7 @@ public class Operador {
     			else {
     				StringTokenizer opConvertir = new StringTokenizer(oper,"",false);
     				convdecimal = Conversion (opConvertir,archErr,numeroLinea,linea_ens,"INH",false);
-    									
+
     				if (convdecimal != 65536){
     					if (oper.length()<=8 && oper.matches ("^[a-zA-Z].*") && oper.matches("[a-zA-Z0-9_]+")){
     						System.out.println("Oper etiqueta");
@@ -66,9 +66,9 @@ public class Operador {
       							System.out.println ("ERROR en operando para INH");
     							linea_ens.guardarError(archErr,"ERROR en operando para INH",numeroLinea);
     					}
-    				
+
     				}
-    			}	
+    			}
             }
             else
     		if (oper.equals("NULL")){
@@ -102,9 +102,9 @@ public class Operador {
                 	i=modosdir.size();
               	}
     		}
-    		
+
     		if (relativo.equals("REL8")){
-    			
+
     			if (oper.length()<=8 && oper.matches ("^[a-zA-Z].*") && oper.matches("[a-zA-Z0-9_]+")){
     				System.out.println("Oper etiqueta");
     				try{
@@ -117,12 +117,12 @@ public class Operador {
     			else {
     				StringTokenizer opConvertir = new StringTokenizer(oper,"",false);
     				convdecimal = Conversion (opConvertir,archErr,numeroLinea,linea_ens,relativo,false);
-    									
+
     				if (convdecimal != 65536){
     					VerifRel8(relativo,convdecimal,archErr,numeroLinea,linea_ens,archInst);
     				}
     			}
-							
+
     		}
     		else{
     			for(int i = 0;i<modosdir.size();i++){
@@ -145,7 +145,7 @@ public class Operador {
     				else {
     					StringTokenizer opConvertir = new StringTokenizer(oper,"",false);
     					convdecimal = Conversion (opConvertir,archErr,numeroLinea,linea_ens,relativo,false);
-    				
+
     					if (convdecimal != 65536){
     						VerifRel9(relativo,convdecimal,archErr,numeroLinea,linea_ens,archInst);
     					}
@@ -159,9 +159,9 @@ public class Operador {
                 			i=modosdir.size();
               			}
     				}
-    				
+
     				if (relativo.equals("REL16")){
-    					
+
     					if (oper.length()<=8 && oper.matches ("^[a-zA-Z].*") && oper.matches("[a-zA-Z0-9_]+")){
     						System.out.println("Oper etiqueta");
     						try{
@@ -174,12 +174,12 @@ public class Operador {
     					else {
     						StringTokenizer opConvertir = new StringTokenizer(oper,"",false);
     						convdecimal = Conversion (opConvertir,archErr,numeroLinea,linea_ens,relativo,false);
-    					
+
     						if (convdecimal != 65536){
     							VerifRel16(relativo,convdecimal,archErr,numeroLinea,linea_ens,archInst);
     						}
     					}
-    					
+
     				}
     				else{
     				if(oper.matches("^#.*")){
@@ -202,20 +202,26 @@ public class Operador {
               					}*/
               				}
     					}
-    					convdecimal = Conversion (opConvertir,archErr,numeroLinea,linea_ens, Inmediato,false);
-    					if (convdecimal != 65536)
-    					VerifInmediato(Inmediato,convdecimal,archErr,numeroLinea,linea_ens,archInst);
-    					
+    					if(Inmediato.equals("IMM8") || Inmediato.equals("IMM16")) {
+    						convdecimal = Conversion (opConvertir,archErr,numeroLinea,linea_ens, Inmediato,false);
+    						if (convdecimal != 65536)
+    							VerifInmediato(Inmediato,convdecimal,archErr,numeroLinea,linea_ens,archInst);
+    					}
+    					else {
+    								System.out.println ("ERROR El codigo de operacion no contiene direccionamiento Inmediato");
+    								linea_ens.guardarError(archErr,"ERROR El codigo de operacion no contiene direccionamiento Inmediato",numeroLinea);
+    					}
+
     				}
     				else{
     					System.out.println();
     					System.out.println();
     					System.out.println();
     					System.out.println(oper);
-    					
+
     					int comas = contarComas(oper,',');
     					System.out.println("COMAS: "+comas);
-    					
+
     					if (comas == 0 && !oper.startsWith("[")){
     						boolean dir = false, ext = false, ambos = false;
     						String directo = new String();
@@ -270,16 +276,16 @@ public class Operador {
     										convdecimal = Conversion (opConvertir,archErr,numeroLinea,linea_ens,extendido,false);
     										if (convdecimal != 65536)
 												VerifExtendido(extendido,convdecimal,archErr,numeroLinea,linea_ens,archInst);
-										
+
     									}
     									else {
     										System.out.println ("ERROR Formato de operando inválido para ningun modo de direccionamiento");
     										linea_ens.guardarError(archErr,"ERROR Formato de operando inválido para ningun modo de direccionamiento",numeroLinea);
     									}
     									//else
-											//linea_ens.guardarError(archErr,"ERROR Formato de operador incorrecto para "+"EXT",numeroLinea);		
+											//linea_ens.guardarError(archErr,"ERROR Formato de operador incorrecto para "+"EXT",numeroLinea);
     								}
-    							
+
     							}
     							else {
     								if (ambos == true){
@@ -305,7 +311,7 @@ public class Operador {
     											System.out.println ("ERROR Formato de operando inválido para ningun modo de direccionamiento");
     											linea_ens.guardarError(archErr,"ERROR Formato de operando inválido para ningun modo de direccionamiento",numeroLinea);
     										}
-    										
+
     									}
     								}
     							}
@@ -321,7 +327,7 @@ public class Operador {
               					}
     						}*/
     						convdecimal=0;
-    						if (comas >= 1 && !oper.startsWith("[")){
+    						if (comas >= 1 && !oper.startsWith("[") && !oper.endsWith("]")){
     							for(int i = 0;i<modosdir.size();i++){
                 					//archInst.write((String)reco.modosdir.get(i));
                 					if(modosdir.get(i).equals("IDX")){
@@ -335,26 +341,30 @@ public class Operador {
     								int canttokens = opConvertir.countTokens();
     								if (canttokens == 1)
     									convdecimal = 0;
+    								if (canttokens == 0){
+    									linea_ens.guardarError(archErr,"ERROR Formato de operando inválido para ningun modo de direccionamiento",numeroLinea);
+    								}
+
     								System.out.println("CANTIDAD DE TOKENS: "+canttokens);
-    								
+
     								StringTokenizer opConvertir2 = new StringTokenizer(oper,",",false);
     								String porsiempiezaconacum = opConvertir2.nextToken();
-    								
+
     								if (porsiempiezaconacum.equalsIgnoreCase("a") || porsiempiezaconacum.equalsIgnoreCase("b") || porsiempiezaconacum.equalsIgnoreCase("d")){
     									String registro = opConvertir2.nextToken();
-    									System.out.println(registro); 
-    									VerifIDXAcum(Indexado,0,archErr,numeroLinea,linea_ens,archInst,registro); 									
+    									System.out.println(registro);
+    									VerifIDXAcum(Indexado,0,archErr,numeroLinea,linea_ens,archInst,registro);
     								}
-    								
+
     								else {
-    									
+
     									if (canttokens != 1){
     										convdecimal = Conversion (opConvertir,archErr,numeroLinea,linea_ens,Indexado,false);
     									}
 
     									String registro = opConvertir.nextToken();
     									System.out.println(registro);
-    									if (convdecimal != 65536 && (convdecimal>= -16 && convdecimal <=15) && Indexado.equals("IDX")){
+    									if (convdecimal != 65536 && ((convdecimal>= -16 && convdecimal <=15) || ((registro.equalsIgnoreCase("-x") || registro.equalsIgnoreCase("+x") || registro.equalsIgnoreCase("x-") || registro.equalsIgnoreCase("x+") || registro.equalsIgnoreCase("-y") || registro.equalsIgnoreCase("+y") || registro.equalsIgnoreCase("y-") || registro.equalsIgnoreCase("y+") || registro.equalsIgnoreCase("-sp") || registro.equalsIgnoreCase("+sp") || registro.equalsIgnoreCase("sp-") || registro.equalsIgnoreCase("sp+")))) && Indexado.equals("IDX")){
     										//Indexado = "IDX";
     										VerifIDX(Indexado,convdecimal,archErr,numeroLinea,linea_ens,archInst,registro);
     									}
@@ -366,7 +376,7 @@ public class Operador {
                 									i=modosdir.size();
               									}
     										}
-    										if (convdecimal != 65536 && (convdecimal>= -256 && convdecimal <=255) && Indexado.equals("IDX1")){
+    										if (convdecimal != 65536 && (convdecimal>= -256 && convdecimal <=255) && Indexado.equals("IDX1") && !oper.startsWith("[") && !oper.endsWith("[")){
     											//Indexado = "IDX1";
     											VerifIDX1(Indexado,convdecimal,archErr,numeroLinea,linea_ens,archInst,registro);
     										}
@@ -382,14 +392,14 @@ public class Operador {
     												//Indexado = "IDX2";
     												VerifIDX2(Indexado,convdecimal,archErr,numeroLinea,linea_ens,archInst,registro);
     											}
-    											else {
+    											/*else {
     												System.out.println ("-----ERROR Operando fuera de rango para "+"IDX");
     												linea_ens.guardarError(archErr,"ERROR Operando fuera de rango para "+"IDX",numeroLinea);
-    											}	
+    											}*/
     										}
     									}
     								}
-    								
+
     								/*String cc = opConvertir.nextToken();
     								System.out.println(cc);*/
     							}
@@ -397,11 +407,11 @@ public class Operador {
     								System.out.println ("ERROR Formato de operando inválido para ningun modo de direccionamiento");
     								linea_ens.guardarError(archErr,"ERROR Formato de operando inválido para ningun modo de direccionamiento",numeroLinea);
     							}
-    							
+
     						}
     						else {
     							System.out.println ("CON CONRCHETES");
-    							if (comas>=1 && oper.startsWith("[") && oper.endsWith("]")){
+    							if (comas==1 && oper.startsWith("[") && oper.endsWith("]")){
     									for(int i = 0;i<modosdir.size();i++){
                 						//archInst.write((String)reco.modosdir.get(i));
                 						if(modosdir.get(i).equals("[IDX2]")){
@@ -432,23 +442,23 @@ public class Operador {
     									System.out.println(registro);
     									Indirecto16bits(Indexado,convdecimal,archErr,numeroLinea,linea_ens,archInst,registro);
     								}
-    								
-    									
+
+
     							}
     							else{
 
-    									
+
     								System.out.println ("ERROR Formato de operando inválido para ningun modo de direccionamiento");
     								linea_ens.guardarError(archErr,"ERROR Formato de operando inválido para ningun modo de direccionamiento",numeroLinea);
-    							
+
     							}
-    							
+
     						}
     					}
 
     				}
-    				
-    					
+
+
     					/*if(oper.matches("^$.*")){
     						System.out.println("MODO DIRECTO //Hexadecimal $");
     					}
@@ -460,14 +470,14 @@ public class Operador {
     			}
     		}
     		}
-    			
+
     	}
     	catch (Exception e){ //Catch de excepciones
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
-    		
+
     }
-    
+
     public int contarComas(String cadena, char caracter){
 		int veces=0;
 		int i;
@@ -481,14 +491,14 @@ public class Operador {
 
     public int Conversion (StringTokenizer oper, FileWriter archErr,int numeroLinea, Linea linea_ens, String tipodireccionamiento, boolean tienediryext) {
     	//String porsinohaygato = oper;
-    	
+
     	int resultadoc_2 = 0;
 		String contenido = new String (oper.nextToken());
 		System.out.println("adsfadsf: "+contenido);
-		
+
 		boolean resultado= contenido.startsWith("$");
 		System.out.println(resultado);
-		
+
 		if(resultado == true){ //YA ENTRO
     		StringTokenizer opConvertir = new StringTokenizer(contenido,"$",false);
     		contenido = opConvertir.nextToken();
@@ -496,7 +506,7 @@ public class Operador {
     			System.out.println("AQUI");
     			System.out.println("HEXADECIMAL: "+contenido);
     			int i = Integer.parseInt(contenido,16);
-      			
+
       			if(contenido.startsWith("F") || contenido.matches("^0{0,}F.*")) {
       				String bin = Integer.toBinaryString(i);
       				resultadoc_2 = (ConversionAComplementoADos (bin))*-1;
@@ -509,7 +519,7 @@ public class Operador {
     					//resultadoc_2 = ConversionAComplementoADos (bin);
       					//System.out.println("Complemento a DOSSS: "+resultadoc_2);
       					return i;
-    				
+
     			}
     		}
     		else {
@@ -549,9 +559,9 @@ public class Operador {
     				if(contenido.matches("[0-1_]+")){
     					if(contenido.startsWith("1")) {
     						System.out.println("Binario: "+contenido);
-    						int i = Integer.parseInt(contenido,2);
-    						String bin = Integer.toBinaryString(i);
-    						resultadoc_2 = (ConversionAComplementoADos (bin))*-1;
+    						/*int i = Integer.parseInt(contenido,2);
+    						String bin = Integer.toBinaryString(i);*/
+    						resultadoc_2 = (ConversionAComplementoADos (contenido))*-1;
       						System.out.println("Complemento a DOSSS: "+resultadoc_2);
       						return resultadoc_2;
     					}
@@ -574,10 +584,10 @@ public class Operador {
     				}
     			}
     			else {
-    				
+
     				boolean tienesigno= contenido.startsWith("+");
 					System.out.println(tienesigno);
-					
+
 					if(tienesigno == true){ //signo positivo
     					StringTokenizer opConvertir = new StringTokenizer(contenido,"+",false);
     					String contenidespudesigno = opConvertir.nextToken();
@@ -592,7 +602,7 @@ public class Operador {
     						if(!tienediryext){
     							System.out.println ("ERROR Formato de operando incorrecto para "+tipodireccionamiento);
     							linea_ens.guardarError(archErr,"ERROR Formato de operando incorrecto para "+tipodireccionamiento,numeroLinea);
-    						}	
+    						}
     					}
     				}
     				else{
@@ -613,7 +623,7 @@ public class Operador {
     								System.out.println ("ERROR Formato de operando incorrecto para "+tipodireccionamiento);
     								linea_ens.guardarError(archErr,"ERROR Formato de operando incorrecto para "+tipodireccionamiento,numeroLinea);
     							}
-    							
+
     						}
     					}
     					else {
@@ -635,13 +645,13 @@ public class Operador {
 
     	return 65536;
     }
-    
+
     public int ConversionAComplementoADos (String binario) {
     	char [] bin = binario.toCharArray();
  		for(int i = 0; i < binario.length(); i++) {
  			if (binario.charAt(i) == '1')
 				bin[i] = '0';
-			else 
+			else
 				bin[i] = '1';
 		}
 		binario = new String(bin);
@@ -652,7 +662,7 @@ public class Operador {
 		System.out.println("Complemento a dos: "+binario);
 		return i;
  	}
- 	
+
  	public void VerifInmediato(String tipoinmediato,int resultadoc_2,FileWriter archErr,int numeroLinea, Linea linea_ens,FileWriter archInst){
  		try{
  			System.out.println("ENTERO: "+resultadoc_2);
@@ -683,8 +693,8 @@ public class Operador {
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
  	}
- 	
- 	
+
+
  	public void VerifDirecto(String directo,int resultadoc_2,FileWriter archErr,int numeroLinea, Linea linea_ens,FileWriter archInst){
  		try{
  			System.out.println("ENTERO: "+resultadoc_2);
@@ -704,7 +714,7 @@ public class Operador {
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
  	}
- 	
+
  	public void VerifExtendido(String extendido,int resultadoc_2,FileWriter archErr,int numeroLinea, Linea linea_ens,FileWriter archInst){
  		try{
  			System.out.println("ENTERO: "+resultadoc_2);
@@ -724,7 +734,7 @@ public class Operador {
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
  	}
- 	
+
  	public void VerifDIRYEXT(String extendido,int resultadoc_2,FileWriter archErr,int numeroLinea, Linea linea_ens,FileWriter archInst){
  		try{
  			System.out.println("ENTERO: "+resultadoc_2);
@@ -744,38 +754,45 @@ public class Operador {
       					}
       						//
     				}
-      		
+
  		}
  		catch (Exception e){ //Catch de excepciones
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
  	}
- 	
+
  	public void VerifIDX(String idx,int resultadoc_2,FileWriter archErr,int numeroLinea, Linea linea_ens,FileWriter archInst, String registro){
  		try{
  			System.out.println("ENTERO: "+resultadoc_2);
  			System.out.println("ENTERO: ");
  			if (idx.equals("IDX")) {
- 				if ((resultadoc_2 >= 1 && resultadoc_2 <=8) && (registro.equalsIgnoreCase("-x") || registro.equalsIgnoreCase("+x") || registro.equalsIgnoreCase("x-") || registro.equalsIgnoreCase("x+") || registro.equalsIgnoreCase("-y") || registro.equalsIgnoreCase("+y") || registro.equalsIgnoreCase("y-") || registro.equalsIgnoreCase("y+") || registro.equalsIgnoreCase("-sp") || registro.equalsIgnoreCase("+sp") || registro.equalsIgnoreCase("sp-") || registro.equalsIgnoreCase("sp+"))){
+ 				if ((registro.equalsIgnoreCase("-x") || registro.equalsIgnoreCase("+x") || registro.equalsIgnoreCase("x-") || registro.equalsIgnoreCase("x+") || registro.equalsIgnoreCase("-y") || registro.equalsIgnoreCase("+y") || registro.equalsIgnoreCase("y-") || registro.equalsIgnoreCase("y+") || registro.equalsIgnoreCase("-sp") || registro.equalsIgnoreCase("+sp") || registro.equalsIgnoreCase("sp-") || registro.equalsIgnoreCase("sp+"))){
  					//AUTO PRE/POST DECREMENTO /INCREMENTO
-      				System.out.println ("Es IDX");
-      				archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\t\t"+idx+"\r\n");
+ 					if ((resultadoc_2 >= 1 && resultadoc_2 <=8))
+ 					{
+ 						System.out.println ("Es IDX");
+      					archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\t\t"+idx+"\r\n");
+ 					}
+ 					else {
+      							System.out.println ("ERROR Operando fuera de rango para modo "+idx+" AUTO PRE/POST DECREMENTO /INCREMENTO");
+    						linea_ens.guardarError(archErr,"ERROR Operando fuera de rango para modo "+idx+" AUTO PRE/POST DECREMENTO /INCREMENTO",numeroLinea);
+    						}
  				}
  				else
-      				if ((resultadoc_2 >= -16 && resultadoc_2 <=15)){
+      				if (registro.equalsIgnoreCase("x") || registro.equalsIgnoreCase("y") || registro.equalsIgnoreCase("sp") || registro.equalsIgnoreCase("pc")){
       					//IDX NORMAL
-      						if (registro.equalsIgnoreCase("x") || registro.equalsIgnoreCase("y") || registro.equalsIgnoreCase("sp") || registro.equalsIgnoreCase("pc")){
+      						if ((resultadoc_2 >= -16 && resultadoc_2 <=15)){
       							System.out.println ("Es IDX");
       							archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\t\t"+idx+"\r\n");
       						}
       						else {
-      							System.out.println ("ERROR Registro incorrecto para modo "+idx+" de 5 bits");
-    							linea_ens.guardarError(archErr,"ERROR Registro incorrecto para modo "+idx+" de 5 bits",numeroLinea);
+      							System.out.println ("ERROR Operando fuera de rango para modo "+idx+" de 5 bits");
+    							linea_ens.guardarError(archErr,"ERROR Operando fuera de rango para modo "+idx+" de 5 bits",numeroLinea);
     						}
       				}
       				else {
-      						System.out.println ("ERROR Operando fuera de rango para modo "+idx);
-    						linea_ens.guardarError(archErr,"ERROR Operando fuera de rango para modo "+idx,numeroLinea);
+      						System.out.println ("ERROR Registro incorrecto para modo "+idx+" de 5 bits");
+    						linea_ens.guardarError(archErr,"ERROR Registro incorrecto para modo "+idx+" de 5 bits",numeroLinea);
     				}
       		}
  		}
@@ -783,7 +800,7 @@ public class Operador {
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
  	}
- 	
+
  	public void VerifIDXAcum(String idx,int resultadoc_2,FileWriter archErr,int numeroLinea, Linea linea_ens,FileWriter archInst, String registro){
  		try{
  			System.out.println("ENTERO: "+resultadoc_2);
@@ -795,8 +812,8 @@ public class Operador {
       							archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\t\t"+idx+"\r\n");
       						}
       						else {
-      							System.out.println ("ERROR Registro incorrecto para modo "+idx+" de 5 bits");
-    							linea_ens.guardarError(archErr,"ERROR Registro incorrecto para modo "+idx+" de 5 bits",numeroLinea);
+      							System.out.println ("ERROR Registro incorrecto para modo "+idx+" indizado de acumulador");
+    							linea_ens.guardarError(archErr,"ERROR Registro incorrecto para modo "+idx+" indizado de acumulador",numeroLinea);
     						}
 
       		}
@@ -805,25 +822,25 @@ public class Operador {
             	System.err.println("Ocurrio un error: " + e.getMessage());
         }
  	}
- 	
+
  	public void VerifIDX1(String idx,int resultadoc_2,FileWriter archErr,int numeroLinea, Linea linea_ens,FileWriter archInst, String registro){
  		try{
  			System.out.println("ENTERO: "+resultadoc_2);
  			System.out.println("ENTERO: ");
  			if (idx.equals("IDX1")) {
-      				if ((resultadoc_2 >= -256 && resultadoc_2 <=255)){
-      					if (registro.equalsIgnoreCase("x") || registro.equalsIgnoreCase("y") || registro.equalsIgnoreCase("sp") || registro.equalsIgnoreCase("pc")){
-      						System.out.println ("Es IDX");
+      				if (registro.equalsIgnoreCase("x") || registro.equalsIgnoreCase("y") || registro.equalsIgnoreCase("sp") || registro.equalsIgnoreCase("pc")){
+      					if ((resultadoc_2 >= -256 && resultadoc_2 <=255)){
+      						System.out.println ("Es IDX1");
       						archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\t\t"+idx+"\r\n");
       					}
       					else {
-      						System.out.println ("ERROR Registro incorrecto para modo "+idx+" de 9 bits");
-    						linea_ens.guardarError(archErr,"ERROR Registro incorrecto para modo "+idx+" de 9 bits",numeroLinea);
+      						System.out.println ("ERROR Operando fuera de rango para modo "+idx);
+    						linea_ens.guardarError(archErr,"ERROR Operando fuera de rango para modo "+idx,numeroLinea);
     					}
       				}
       				else {
-      						System.out.println ("ERROR Operando fuera de rango para modo "+idx);
-    						linea_ens.guardarError(archErr,"ERROR Operando fuera de rango para modo "+idx,numeroLinea);
+      						System.out.println ("ERROR Registro incorrecto para modo "+idx+" de 9 bits");
+    						linea_ens.guardarError(archErr,"ERROR Registro incorrecto para modo "+idx+" de 9 bits",numeroLinea);
     				}
       		}
  		}
@@ -831,7 +848,7 @@ public class Operador {
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
  	}
- 	
+
  	public void VerifIDX2(String idx,int resultadoc_2,FileWriter archErr,int numeroLinea, Linea linea_ens,FileWriter archInst, String registro){
  		try{
  			System.out.println("ENTERO: "+resultadoc_2);
@@ -857,7 +874,7 @@ public class Operador {
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
  	}
- 	
+
  	public void Indirecto16bits(String idx,int resultadoc_2,FileWriter archErr,int numeroLinea, Linea linea_ens,FileWriter archInst, String registro){
  		try{
  			System.out.println("ENTERO: "+resultadoc_2);
@@ -873,17 +890,17 @@ public class Operador {
     						linea_ens.guardarError(archErr,"ERROR Registro incorrecto para modo "+idx+"",numeroLinea);
     					}
       				}
-      				/*else {
-      						System.out.println ("ERROR Operando incorrecto para modo "+idx);
-    						linea_ens.guardarError(archErr,"ERROR Operando incorrecto para modo "+idx,numeroLinea);
-    				}*/
+      				else {
+      						System.out.println ("ERROR Operando fuera de rango para modo "+idx);
+    						linea_ens.guardarError(archErr,"ERROR Operando fuera de rango para modo "+idx,numeroLinea);
+    				}
       		}
  		}
  		catch (Exception e){ //Catch de excepciones
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
  	}
- 	
+
  	//IndizadoDeAcumuladorD
  	public void IndizadoDeAcumuladorD(String idx,int resultadoc_2,FileWriter archErr,int numeroLinea, Linea linea_ens,FileWriter archInst, String registro){
  		try{
@@ -896,14 +913,14 @@ public class Operador {
       				System.out.println ("ERROR Registro incorrecto para modo "+idx);
     				linea_ens.guardarError(archErr,"ERROR Registro incorrecto para modo "+idx,numeroLinea);
     			}
-      				
+
       		}
  		}
  		catch (Exception e){ //Catch de excepciones
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
  	}
- 	
+
  	public void VerifRel8(String relativo,int resultadoc_2,FileWriter archErr,int numeroLinea, Linea linea_ens,FileWriter archInst){
  		try{
  			System.out.println("ENTERO: "+resultadoc_2);
@@ -923,7 +940,7 @@ public class Operador {
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
  	}
- 	
+
  	public void VerifRel9(String relativo,int resultadoc_2,FileWriter archErr,int numeroLinea, Linea linea_ens,FileWriter archInst){
  		try{
  			System.out.println("ENTERO: "+resultadoc_2);
@@ -943,7 +960,7 @@ public class Operador {
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
  	}
- 	
+
  	public void VerifRel16(String relativo,int resultadoc_2,FileWriter archErr,int numeroLinea, Linea linea_ens,FileWriter archInst){
  		try{
  			System.out.println("ENTERO: "+resultadoc_2);

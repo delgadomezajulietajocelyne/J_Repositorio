@@ -1,0 +1,31 @@
+ERRORES---------------
+
+Linea 5: ERROR El codigo de operacion no debe contener operando
+Linea 12: ERROR la linea deberia de contener operando
+Linea 14: ERROR Operando fuera de rango para modo REL8
+Linea 16: ERROR El codigo de operacion no contiene direccionamiento Inmediato
+Linea 17: ERROR Operando fuera de rango para IMM8
+Linea 18: ERROR Formato de operando inválido para ningun modo de direccionamiento
+Linea 19: ERROR Formato de operando inválido para ningun modo de direccionamiento
+Linea 21: ERROR Operando fuera de rango para modo IDX AUTO PRE/POST DECREMENTO /INCREMENTO
+Linea 22: ERROR Formato de operando inválido para ningun modo de direccionamiento
+Linea 23: ERROR Registro incorrecto para modo IDX de 5 bits
+Linea 24: ERROR Operando fuera de rango para modo IDX AUTO PRE/POST DECREMENTO /INCREMENTO
+Linea 25: ERROR Operando fuera de rango para modo [IDX2]
+Linea 26: ERROR Registro incorrecto para modo IDX1 de 9 bits
+Linea 31: ERROR Registro incorrecto para modo IDX indizado de acumulador
+Linea 32: ERROR la linea solo contiene etiqueta
+Linea 34: ERROR El Codigo de Operacion no existe en el TABOP
+Linea 35: ERROR El Codigo de Operacion no existe en el TABOP
+Linea 36: ERROR Formato de operando incorrecto para IDX
+Linea 41: ERROR Formato de operador incorrecto en hexadecimal para EXT
+Linea 42: ERROR Formato de operador incorrecto en octal para IMM8
+Linea 43: ERROR Operando fuera de rango para modo IDX AUTO PRE/POST DECREMENTO /INCREMENTO
+Linea 47: ERROR Formato de operando incorrecto para [IDX2]
+Linea 48: ERROR Formato de operando inválido para ningun modo de direccionamiento
+Linea 49: ERROR Formato de operando inválido para ningun modo de direccionamiento
+Linea 51: ERROR Formato de operando inválido para ningun modo de direccionamiento
+Linea 53: ERROR Registro incorrecto para modo IDX1 de 9 bits
+Linea 58: ERROR Operando fuera de rango para modo REL9
+Linea 62: ERROR la directiva END no debe contener operando
+ERROR no se encuentra la directiva END (con su formato de linea correcto)
