@@ -358,8 +358,8 @@ public class Linea {
         }
     }
 }
-//F:\tronador03_2013a.asm
-//F:\Practica_3\TABOP.txt
+//E:\tronador03_2013b.asm
+//E:\Practica_3\TABOP.txt
 
 //F:\tronador02_2013b.asm
 //F:\Practica_3\TABOP.txt
