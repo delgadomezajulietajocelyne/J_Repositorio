@@ -178,6 +178,10 @@ public class Operador {
     						if (convdecimal != 65536){
     							VerifRel16(relativo,convdecimal,archErr,numeroLinea,linea_ens,archInst);
     						}
+    						else {
+      							System.out.println ("ERROR Operando fuera de rango para modo "+relativo);
+    							linea_ens.guardarError(archErr,"ERROR Operando fuera de rango para modo "+relativo,numeroLinea);
+      						}
     					}
 
     				}
@@ -255,20 +259,27 @@ public class Operador {
 										VerifDirecto(directo,convdecimal,archErr,numeroLinea,linea_ens,archInst);
     							}
     							else {
-    								System.out.println ("ERROR Formato de operando inv·lido para ningun modo de direccionamiento");
-    								linea_ens.guardarError(archErr,"ERROR Formato de operando inv·lido para ningun modo de direccionamiento",numeroLinea);
+    								System.out.println ("ERROR Formato de operando inv√°lido para ningun modo de direccionamiento");
+    								linea_ens.guardarError(archErr,"ERROR Formato de operando inv√°lido para ningun modo de direccionamiento",numeroLinea);
     							}
     						}
     						else {
     							if (ambos == false && ext == true){
-    								if (oper.length()<=8 && oper.matches ("^[a-zA-Z].*") && oper.matches("[a-zA-Z0-9_]+")){
-    									System.out.println("Oper etiqueta");
-    									try{
+    								if (oper.matches ("^[a-zA-Z].*") && oper.matches("[a-zA-Z0-9_]+")){
+    									if(oper.length()<=8){
+    										System.out.println("Oper etiqueta");
+    										try{
     										archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\t\t"+"EXT"+"\r\n");
+    										}
+    										catch (Exception e){ //Catch de excepciones
+            									System.err.println("Ocurrio un error: " + e.getMessage());
+              								}
     									}
-    									catch (Exception e){ //Catch de excepciones
-            								System.err.println("Ocurrio un error: " + e.getMessage());
-              							}
+    									else {
+    										System.out.println ("ERROR Operando Etiqueta fuera de rango");
+    										linea_ens.guardarError(archErr,"ERROR Operando Etiqueta fuera de rango",numeroLinea);
+    									}
+
     								}
     								else {
     									if(loquetiene.matches("^@{1,}.*") || loquetiene.matches("^%{1,}.*") || (hx==true) || loquetiene.matches("[0-9_]+")){
@@ -279,8 +290,8 @@ public class Operador {
 
     									}
     									else {
-    										System.out.println ("ERROR Formato de operando inv·lido para ningun modo de direccionamiento");
-    										linea_ens.guardarError(archErr,"ERROR Formato de operando inv·lido para ningun modo de direccionamiento",numeroLinea);
+    										System.out.println ("ERROR Formato de operando inv√°lido para ningun modo de direccionamiento");
+    										linea_ens.guardarError(archErr,"ERROR Formato de operando inv√°lido para ningun modo de direccionamiento",numeroLinea);
     									}
     									//else
 											//linea_ens.guardarError(archErr,"ERROR Formato de operador incorrecto para "+"EXT",numeroLinea);
@@ -289,14 +300,21 @@ public class Operador {
     							}
     							else {
     								if (ambos == true){
-    									if (oper.length()<=8 && oper.matches ("^[a-zA-Z].*") && oper.matches("[a-zA-Z0-9_]+")){
-    										System.out.println("Oper etiqueta");
-    										try{
-    											archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\t\t"+"EXT"+"\r\n");
+    									if (oper.matches ("^[a-zA-Z].*") && oper.matches("[a-zA-Z0-9_]+")){
+    										if(oper.length()<=8){
+    											System.out.println("Oper etiqueta");
+    											try{
+    												archInst.write(numeroLinea+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\t\t"+"EXT"+"\r\n");
+    											}
+    											catch (Exception e){ //Catch de excepciones
+            										System.err.println("Ocurrio un error: " + e.getMessage());
+              									}
     										}
-    										catch (Exception e){ //Catch de excepciones
-            									System.err.println("Ocurrio un error: " + e.getMessage());
-              								}
+    										else {
+    											System.out.println ("ERROR Operando Etiqueta fuera de longitud");
+    											linea_ens.guardarError(archErr,"ERROR Operando Etiqueta fuera de longitud",numeroLinea);
+    										}
+
     									}
     									else {
     										if(loquetiene.matches("^@{1,}.*") || loquetiene.matches("^%{1,}.*") || (hx==true) || loquetiene.matches("[0-9_]+")){
@@ -308,8 +326,8 @@ public class Operador {
 													linea_ens.guardarError(archErr,"ERROR Formato de operador incorrecto para "+"EXT",numeroLinea);
     										}
     										else {
-    											System.out.println ("ERROR Formato de operando inv·lido para ningun modo de direccionamiento");
-    											linea_ens.guardarError(archErr,"ERROR Formato de operando inv·lido para ningun modo de direccionamiento",numeroLinea);
+    											System.out.println ("ERROR Formato de operando inv√°lido para ningun modo de direccionamiento");
+    											linea_ens.guardarError(archErr,"ERROR Formato de operando inv√°lido para ningun modo de direccionamiento",numeroLinea);
     										}
 
     									}
@@ -335,14 +353,14 @@ public class Operador {
                 						i=modosdir.size();
               						}
     							}
-    							System.out.println("AquÌ entro");
+    							System.out.println("Aqu√≠ entro");
     							if (comas == 1){
     								StringTokenizer opConvertir = new StringTokenizer(oper,",",false);
     								int canttokens = opConvertir.countTokens();
     								if (canttokens == 1)
     									convdecimal = 0;
     								if (canttokens == 0){
-    									linea_ens.guardarError(archErr,"ERROR Formato de operando inv·lido para ningun modo de direccionamiento",numeroLinea);
+    									linea_ens.guardarError(archErr,"ERROR Formato de operando inv√°lido para ningun modo de direccionamiento",numeroLinea);
     								}
 
     								System.out.println("CANTIDAD DE TOKENS: "+canttokens);
@@ -404,8 +422,8 @@ public class Operador {
     								System.out.println(cc);*/
     							}
     							else {
-    								System.out.println ("ERROR Formato de operando inv·lido para ningun modo de direccionamiento");
-    								linea_ens.guardarError(archErr,"ERROR Formato de operando inv·lido para ningun modo de direccionamiento",numeroLinea);
+    								System.out.println ("ERROR Formato de operando inv√°lido para ningun modo de direccionamiento");
+    								linea_ens.guardarError(archErr,"ERROR Formato de operando inv√°lido para ningun modo de direccionamiento",numeroLinea);
     							}
 
     						}
@@ -448,8 +466,8 @@ public class Operador {
     							else{
 
 
-    								System.out.println ("ERROR Formato de operando inv·lido para ningun modo de direccionamiento");
-    								linea_ens.guardarError(archErr,"ERROR Formato de operando inv·lido para ningun modo de direccionamiento",numeroLinea);
+    								System.out.println ("ERROR Formato de operando inv√°lido para ningun modo de direccionamiento");
+    								linea_ens.guardarError(archErr,"ERROR Formato de operando inv√°lido para ningun modo de direccionamiento",numeroLinea);
 
     							}
 
@@ -532,8 +550,9 @@ public class Operador {
     			StringTokenizer opConvertir = new StringTokenizer(contenido,"@",false);
     			contenido = opConvertir.nextToken();
     			System.out.println("OCTAL: "+contenido);
-    			int i = Integer.parseInt(contenido,8);
-       			if (contenido.startsWith("7") || contenido.matches("^0{0,}7.*") && contenido.matches("[0-9_]+")){
+
+       			if (contenido.startsWith("7") || contenido.matches("^0{0,}7.*") && contenido.matches("[0-7_]+")){
+       				int i = Integer.parseInt(contenido,8);
        				String bin = Integer.toBinaryString(i);
        				System.out.println("octal a Binario: "+bin);
        				resultadoc_2 = ConversionAComplementoADos (bin) *-1;
@@ -541,8 +560,11 @@ public class Operador {
       				return resultadoc_2;
        			}
        			else {
-       				if (contenido.matches("[0-9_]+"))
+       				if (contenido.matches("[0-7_]+")){
+       					int i = Integer.parseInt(contenido,8);
        					return i;
+       				}
+
        				else {
        					if(!tienediryext) {
     						linea_ens.guardarError(archErr,"ERROR Formato de operador incorrecto en octal para "+tipodireccionamiento,numeroLinea);
