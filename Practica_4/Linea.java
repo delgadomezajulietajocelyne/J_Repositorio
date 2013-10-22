@@ -44,7 +44,7 @@ public class Linea {
                 				}
                 				else{
                 					edoERROR = true;
-    								linea_ens.guardarError(archErr,"ERROR El codigo de operacion puede empezar con letra",numeroLinea);
+    								linea_ens.guardarError(archErr,"ERROR El codigo de operacion debe empezar con letra",numeroLinea);
                 				}
                 			}
     		}
@@ -147,7 +147,7 @@ public class Linea {
         			contenido = str.nextToken();
         			linea_ens.oper = linea_ens.oper + " " + contenido;
         		}
-        		
+
         	}
         	else {
         		if(contenido.matches(".+")){
@@ -195,7 +195,7 @@ public class Linea {
 
 		String nombre_fichero = archivo.getName(); //obtengo el nombre del fichero
 		int pos = nombre_fichero.lastIndexOf('.'); //me posiciono en el punto y obtengo la posicion
-		String extension = nombre_fichero.substring(pos+1); //me posiciono después del punto
+		String extension = nombre_fichero.substring(pos+1); //me posiciono despuÃ©s del punto
 
     	if(archivo.exists() && extension.equalsIgnoreCase("ASM")){
         	return true;
@@ -227,7 +227,7 @@ public class Linea {
     		 }
 
     }
-    
+
     public void VerifEtisOpers(ArbolEtiquetas arboletq,String name, FileWriter archErr, Linea linea_ens){
     	String strLinea="";
     	File fichero=new File(name+".INST");
@@ -237,11 +237,11 @@ public class Linea {
         	System.out.println("Camino absoluto    "+fichero.getAbsolutePath());
         	System.out.println("Se puede escribir  "+fichero.canRead());
         	System.out.println("Se puede leer      "+fichero.canWrite());
-        	System.out.println("Tama�o             "+fichero.length());
+        	System.out.println("Tamaño             "+fichero.length());
    		}
     	 try{
     	 	archErr.write("\r\n");
-    	 	
+
     	 	RandomAccessFile arch = new RandomAccessFile(name+".INST","rw");
     		arch.seek(0);
             /*// Abrimos el archivo
@@ -255,13 +255,13 @@ public class Linea {
             System.out.println ("SILOHIZO");
             while (arch.getFilePointer()!=arch.length())   {
             	long point = arch.getFilePointer();
-                // Imprimimos la l�nea por pantalla
+                // Imprimimos la línea por pantalla
                 //System.out.println ("----------"+strLinea);
                 System.out.println ("SILOHIZO");
                 strLinea=arch.readLine();
                 StringTokenizer st = new StringTokenizer(strLinea," \t",false); //con false omiti tomar como token el espacio y el tabulador
                 String contenido = st.nextToken();
-                //int a = entrada.seek(); 
+                //int a = entrada.seek();
                 //System.out.println ("VALOR a:"+ a);
 
                 int l = 0;
@@ -278,8 +278,8 @@ public class Linea {
         				contenido = st.nextToken();
         				contenido = st.nextToken();
         				System.out.println ("----------"+numerolinea+contenido);
-        				
-        				
+
+
         				if (contenido.matches ("^[a-zA-Z].*") && contenido.matches("[a-zA-Z0-9_]+") && !contenido.equalsIgnoreCase("NULL")){
     						if(contenido.length()<=8){
     							System.out.println("Oper etiqueta");
@@ -290,12 +290,12 @@ public class Linea {
     									arch.seek(point);
     									arch.writeBytes("-------------------------------------------------------------------------------------");
     									linea_ens.guardarError(archErr,"ERROR El operando como etiqueta no existe",numerolinea);
-    										
+
     								}
     								else {
     									//PERFECTO SI EXISTE
     								}
-    									
+
     								}
     							catch (Exception e){ //Catch de excepciones
     								System.err.println("Ocurrio un error: " + e.getMessage());
@@ -303,20 +303,20 @@ public class Linea {
     						}
     						else {
     							System.out.println ("ERROR Operando Etiqueta fuera de longitud");
-    							
+
     							linea_ens.guardarError(archErr,"ERROR Operando Etiqueta fuera de longitud",numerolinea);
     						}
     					}
-        				
-        				
-        				
-        				
-        				
-        				
+
+
+
+
+
+
         				//linea_ens.oper = linea_ens.oper + " " + contenido;
         			}
                 }
-                
+
             }
             // Cerramos el archivo
             arch.close();
@@ -324,8 +324,8 @@ public class Linea {
         }catch (Exception e){ //Catch de excepciones
             System.err.println("Ocurrio un error: " + e.getMessage());
         }
-    		
-    	
+
+
     }
 
     public static void main(String[] args) {
@@ -333,7 +333,7 @@ public class Linea {
        	String ruta = new String();
        	boolean existeono, banderaEnd = false, edoERROR = false;
        	int numeroLinea = 0;
-       	
+
        	ContadorDeLocalidades contlocalidades = new ContadorDeLocalidades();
        	int cantORG = 0;
        	boolean tieneORG = false;
@@ -357,15 +357,15 @@ public class Linea {
         if (archivoErrores.exists()) {
         	archivoErrores.delete();
         }
-        
-        
-    	
+
+
+
 		String name = (fichero.getName()).substring(0,(fichero.getName()).lastIndexOf('.'));
 		File archTbs=new File((fichero.getName()).substring(0,(fichero.getName()).lastIndexOf('.'))+".TDS");
     	if (archTbs.exists()) {
     		archTbs.delete();
     	}
-		
+
         if(existeono){
         	try{
         		RandomAccessFile archivo = new RandomAccessFile(ruta,"rw");
@@ -390,7 +390,7 @@ public class Linea {
 				FileWriter archTABSIM = new FileWriter(archTbs,true);
 				//archivo.seek(0);
 				archTABSIM.write("TABSIM---------------\r\n");
-				
+
             	// Leer el archivo linea por linea
             	while (archivo.getFilePointer()!=archivo.length() && banderaEnd == false){
             		strLinea=archivo.readLine();
@@ -452,7 +452,8 @@ public class Linea {
                 			{
                 				banderaEnd = true;
                 				archInst.write(numeroLinea+"\t\t"+contlocalidades.conloc+"\t\t"+linea_ens.etq+"\t\t"+linea_ens.codop+"\t\t"+linea_ens.oper+"\r\n");
-                				
+                				contlocalidades.EscribirEnTABSIM(archTABSIM,linea_ens,contlocalidades.conloc);
+
                 			}
                 			else
                 				linea_ens.guardarError(archErr,"ERROR la directiva END no debe contener operando",numeroLinea);
@@ -472,10 +473,10 @@ public class Linea {
                 				else
                 					linea_ens.guardarError(archErr,"ERROR Solo debe de existir un ORG",numeroLinea);
                 			}
-                			else 
+                			else
                 				linea_ens.guardarError(archErr,"ERROR La directiva ORG debe de tener operando",numeroLinea);
                 		}
-                		else 
+                		else
                 			if(linea_ens.codop.equalsIgnoreCase("EQU")){
                 				if(!linea_ens.etq.equalsIgnoreCase("NULL") && !linea_ens.oper.equalsIgnoreCase("NULL")) {
                 					boolean tiene_directivasuorg = contlocalidades.EmpiezaConDirectivaOConOrg(linea_ens,archErr,numeroLinea,archInst,arboletq,archTABSIM);
@@ -494,7 +495,7 @@ public class Linea {
                 			}
                 		else {
                 			if (!linea_ens.codop.equalsIgnoreCase("END")){
-                				
+
                 				if (tieneORG == false && tieneEQU == false) {
                 					System.out.println("ENTRO ORG EQU");
                 					contlocalidades.conloc = "0000";
@@ -503,23 +504,23 @@ public class Linea {
                 					linea_ens.errorEnd(archErr,"ERROR el programa deberia iniciar con directiva ORG o EQU");
                 				}
                 				boolean tiene_directivasuorg = contlocalidades.EmpiezaConDirectivaOConOrg(linea_ens,archErr,numeroLinea,archInst,arboletq,archTABSIM);
-                				
+
                 				//if (tiene_directivasuorg == false)
-                					
-                				
+
+
                 				if (tiene_directivasuorg == false) {
-                					
+
                 					/*if(equseguidodeswi == 3 && linea_ens.codop.equalsIgnoreCase("SWI")) {
                 						equseguidodeswi = 0;
                 						contlocalidades.conloc = "0000";
                 					}*/
-                					
-                					
+
+
                 					boolean exist = abo.existe(linea_ens, archInst,numeroLinea,archErr,contlocalidades,arboletq,archTABSIM);
                 					if (exist == false){
                 						linea_ens.guardarError(archErr,"ERROR El Codigo de Operacion no existe en el TABOP",numeroLinea);
                 					}
-                					
+
                 				}
                 				System.out.println("JAJAJAJA");
                 				arboletq.imprimirEntre();
@@ -534,7 +535,7 @@ public class Linea {
                 }
            		// Cerrar archivos
             	archivo.close();
-            	
+
             	archInst.close();
             	archTABSIM.close();
             	linea_ens.VerifEtisOpers(arboletq,name,archErr,linea_ens);
@@ -556,5 +557,5 @@ public class Linea {
 //F:\tronador03_2013b.asm
 //F:\P_4\Practica_4\TABOP.txt
 
-//F:\tronador02_2013b.asm
-//F:\Practica_3\TABOP.txt
+//F:\tronador04_2013b.asm
+//F:\P_4\Practica_4\TABOP.txt
