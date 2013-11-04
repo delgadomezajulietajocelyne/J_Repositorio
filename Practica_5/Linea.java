@@ -195,7 +195,7 @@ public class Linea {
 
 		String nombre_fichero = archivo.getName(); //obtengo el nombre del fichero
 		int pos = nombre_fichero.lastIndexOf('.'); //me posiciono en el punto y obtengo la posicion
-		String extension = nombre_fichero.substring(pos+1); //me posiciono después del punto
+		String extension = nombre_fichero.substring(pos+1); //me posiciono despuÃ©s del punto
 
     	if(archivo.exists() && extension.equalsIgnoreCase("ASM")){
         	return true;
@@ -228,17 +228,18 @@ public class Linea {
 
     }
 
-    public void VerifEtisOpers(ArbolEtiquetas arboletq,String name,Linea linea_ens){
+    public boolean VerifEtisOpers(ArbolEtiquetas arboletq,String name,Linea linea_ens){
     	String strLinea="";
     	File fichero=new File(name+".INST");
     	File ficheroErrores=new File(name+".ERR");
+    	boolean error = false;
     	if(fichero.exists()){
         	System.out.println("Nombre del archivo "+fichero.getName());
         	System.out.println("Camino             "+fichero.getPath());
         	System.out.println("Camino absoluto    "+fichero.getAbsolutePath());
         	System.out.println("Se puede escribir  "+fichero.canRead());
         	System.out.println("Se puede leer      "+fichero.canWrite());
-        	System.out.println("Tama�o             "+fichero.length());
+        	System.out.println("Tamaño             "+fichero.length());
    		}
     	 try{
     	 	RandomAccessFile archErr = new RandomAccessFile(name+".ERR","rw");
@@ -261,7 +262,7 @@ public class Linea {
             System.out.println ("SILOHIZO");
             while (arch.getFilePointer()!=arch.length())   {
             	long point = arch.getFilePointer();
-                // Imprimimos la l�nea por pantalla
+                // Imprimimos la línea por pantalla
                 //System.out.println ("----------"+strLinea);
                 System.out.println ("SILOHIZO");
                 strLinea=arch.readLine();
@@ -287,7 +288,7 @@ public class Linea {
         				String mododir;
         				if (st.hasMoreTokens())
         					mododir = st.nextToken();
-        				
+
         				long point2 = arch.getFilePointer();
 
 
@@ -298,6 +299,7 @@ public class Linea {
     							if (existeEtq == false) {
     								arch.seek(point);
     								arch.writeBytes("*");
+    								error = true;
     								archErr.writeBytes("Linea "+numerolinea+": "+"ERROR El operando como etiqueta no existe\r\n");
 									arch.seek(point2);
 									if(!etiqueta.equalsIgnoreCase("NULL")) { //eliminar de arbol de etiquetas
@@ -314,9 +316,9 @@ public class Linea {
                 }
 
             }
-            
+
             //REALIZARLO DOBLE VEZ POR AQUELLAS QUE SE ELIMINARON Y SE TENGA QUE VOLVER A ELIMINAR
-            
+
             arch.seek(0);
 
             System.out.println ("aqui entro doble");
@@ -328,7 +330,7 @@ public class Linea {
                 String contenido = st.nextToken();
                 int l = 0;
                 int numerolinea = 0;
-                if (!contenido.equals("LINEA") && !contenido.equals("------------------------------------------------------------------------------------------------------") && !contenido.equals("*")) {
+                if (!contenido.equals("LINEA") && !contenido.equals("------------------------------------------------------------------------------------------------------") && !contenido.startsWith("*")) {
                 		if (l == 0) {
                 			String nlinea = contenido;
                 			numerolinea = Integer.parseInt(nlinea,10);
@@ -342,7 +344,7 @@ public class Linea {
         				String mododir;
         				if (st.hasMoreTokens())
         					mododir = st.nextToken();
-        				
+
         				long point2 = arch.getFilePointer();
 
 
@@ -353,9 +355,10 @@ public class Linea {
     							if (existeEtq == false) {
     								arch.seek(point);
     								arch.writeBytes("*");
+    								error = true;
     								archErr.writeBytes("Linea "+numerolinea+": "+"ERROR El operando como etiqueta no existe\r\n");
 									arch.seek(point2);
-									
+
 
     							}
     							else {
@@ -366,16 +369,22 @@ public class Linea {
 
                 }
 
-            }            
+            }
+            if (error == true) {
+            	archErr.writeBytes("ERROR No puede seguir al paso 2\r\n");
+				//arch.seek(point2);
+            }
             // Cerramos el archivo
             arch.close();
             archErr.close();
         }catch (Exception e){ //Catch de excepciones
             System.err.println("Ocurrio un errorsazo: " + e.getMessage());
         }
+
+        return error;
     }
-    
-    
+
+
     public void reEscribirInst (File fichero, String name) {
     	File aux=new File((fichero.getName()).substring(0,(fichero.getName()).lastIndexOf('.'))+".txt");
     	if (aux.exists()) {
@@ -385,27 +394,28 @@ public class Linea {
     	 	RandomAccessFile arch = new RandomAccessFile(name+".INST","rw");
     		arch.seek(0);
 			FileWriter auxInst = new FileWriter(aux,true);
-			
-			
+
+
             System.out.println ("ENTRO A REESCRIBIR INST");
             while (arch.getFilePointer()!=arch.length()) {
-                
+
                 String strLinea=arch.readLine();
-                
-                if(!strLinea.startsWith("*")){
-                	auxInst.write(strLinea+"\r\n"); 
+
+                if(!strLinea.startsWith("*") ){
+                	auxInst.write(strLinea+"\r\n");
                 		System.out.println (strLinea);
                 }
-                	               
+
             }
             // Cerramos el archivo
             auxInst.close();
             arch.close();
+            //aux.close();
         }catch (Exception e){ //Catch de excepciones
             System.err.println("Ocurrio un errorsazo: " + e.getMessage());
         }
-    }   
-    
+    }
+
     public void reCalcularCONLOC(File fichero, String name,ArbolEtiquetas arboletq,	ArbolBinarioOrdenado abo) {
     	String strLinea= "";
     	Linea linea_ens_paraReEscribir=new Linea("NULL","NULL","NULL");;
@@ -417,18 +427,18 @@ public class Linea {
         if (archivoInst.exists()) {
         	archivoInst.delete();
         }
-        
+
         File archivoTABSIM=new File((fichero.getName()).substring(0,(fichero.getName()).lastIndexOf('.'))+".TDS");
         if (archivoTABSIM.exists()) {
         	archivoTABSIM.delete();
         }
-        
-        
-        
+
+
+
     	try{
     		File archivoErrores=new File((fichero.getName()).substring(0,(fichero.getName()).lastIndexOf('.'))+".ERR");
     		FileWriter archErr = new FileWriter(archivoErrores,true);
-    		
+
     	 	RandomAccessFile arch = new RandomAccessFile(name+".txt","rw");
     		arch.seek(0);
 			//Para archivo INST
@@ -467,7 +477,7 @@ public class Linea {
         					if (st.hasMoreTokens())
         						mododir = st.nextToken();
                 		//}
-                		
+
                 		if((linea_ens_paraReEscribir.codop).equalsIgnoreCase("END")){
                 			if ((linea_ens_paraReEscribir.oper).equalsIgnoreCase("NULL"))
                 			{
@@ -503,11 +513,11 @@ public class Linea {
                 				arboletq.imprimirEntre();
                 			}
                 		}
-                		
-                		
-                		
-                		
-        				
+
+
+
+
+
                 }
 
             }
@@ -521,7 +531,7 @@ public class Linea {
             System.err.println("Ocurrio un errorsazo: " + e.getMessage());
         }
     }
-    
+
     public void InstDefinitivo (File fichero, String name) {
     	File aux=new File((fichero.getName()).substring(0,(fichero.getName()).lastIndexOf('.'))+".INST");
     	if (aux.exists()) {
@@ -531,19 +541,19 @@ public class Linea {
     	 	RandomAccessFile arch = new RandomAccessFile(name+".txt","rw");
     		arch.seek(0);
 			FileWriter auxInst = new FileWriter(aux,true);
-			
-			
+
+
             System.out.println ("ENTRO A DEFINITIVAMENTE REESCRIBIR INST");
             while (arch.getFilePointer()!=arch.length()) {
-                
+
                 String strLinea=arch.readLine();
-                auxInst.write(strLinea+"\r\n"); 
+                auxInst.write(strLinea+"\r\n");
                 System.out.println (strLinea);
                 /*if(!strLinea.startsWith("*")){
-                	auxInst.write(strLinea+"\r\n"); 
+                	auxInst.write(strLinea+"\r\n");
                 		System.out.println (strLinea);
                 }*/
-                	               
+
             }
             // Cerramos el archivo
             auxInst.close();
@@ -552,7 +562,7 @@ public class Linea {
             System.err.println("Ocurrio un errorsazo: " + e.getMessage());
         }
     }
-    
+
     public void escribirCodigoMaquina(ArbolBinarioOrdenado abo,String name,Linea linea_ens,ArbolEtiquetas arboletq){
     	String strLinea="";
     	File fichero=new File(name+".INST");
@@ -569,7 +579,7 @@ public class Linea {
             System.out.println ("ENTRO A PONER CODIGO MAQUINA");
 
 			FileWriter auxInst = new FileWriter(aux,true);
-      
+
             auxInst.write("LINEA\t\tCONTLOC\t\tETQ\t\tCODOP\t\tOPER\t\tMODODIR\t\tCODMAQ\r\n");
         	auxInst.write("------------------------------------------------------------------------------------------------------\r\n");
 
@@ -596,10 +606,10 @@ public class Linea {
         				else {
         					auxInst.write("\r\n");
         				}
-        					
+
                 }
 
-            }      
+            }
             // Cerramos el archivo
             arch.close();
             auxInst.close();
@@ -607,7 +617,7 @@ public class Linea {
             System.err.println("Ocurrio un errorsazo: " + e.getMessage());
         }
     }
-    
+
 
     public static void main(String[] args) {
        	Linea linea_ens=new Linea("NULL","NULL","NULL");
@@ -652,7 +662,7 @@ public class Linea {
         		RandomAccessFile archivo = new RandomAccessFile(ruta,"rw");
     			archivo.seek(0);
     			//Empiezo con tabop
-            	
+
 
             	linea_ens.abrirTabop(abo,teclado);
 
@@ -820,17 +830,20 @@ public class Linea {
 				archErr.close();
             	archInst.close();
             	archTABSIM.close();
-            	
+
 
             }catch (Exception e){ //Catch de excepciones
             	System.err.println("Ocurrio un error: " + e.getMessage());
               }
-              linea_ens.VerifEtisOpers(arboletq,name,linea_ens);
+              boolean errorr = linea_ens.VerifEtisOpers(arboletq,name,linea_ens);
               linea_ens.reEscribirInst (fichero,name);
               linea_ens.reCalcularCONLOC(fichero,name,arboletq,abo);
-              linea_ens.escribirCodigoMaquina(abo,name,linea_ens,arboletq);
-              linea_ens.InstDefinitivo(fichero,name);
-              
+              if (errorr == false) {
+              	linea_ens.escribirCodigoMaquina(abo,name,linea_ens,arboletq);
+              	linea_ens.InstDefinitivo(fichero,name);
+              }
+
+
         }
         else{
         	System.out.println("\nEl archivo no existe o tiene la extension incorrecta, VERIFIQUELO...");
@@ -842,4 +855,8 @@ public class Linea {
 
 
 //F:\tronador04_2013b.asm
+
+
+//E:\tronador05_2_2013b.asm
+//E:\tronador05_1_2013b.asm
 //E:\P_5\Practica_5\TABOP.txt
