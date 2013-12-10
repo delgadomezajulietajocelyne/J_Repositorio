@@ -18,7 +18,7 @@ public class ArbolBinarioOrdenado {
       	String codop;
       	boolean existeoperando;
         ArrayList<String> modosdir = new ArrayList<String>();
-        ArrayList<String> codmaqenhex = new ArrayList<String>(); 		// C骴igo maquina en hexadecimal
+        ArrayList<String> codmaqenhex = new ArrayList<String>(); 		// C贸digo maquina en hexadecimal
         ArrayList<String> bytesporlasminus = new ArrayList<String>();  	// Bytes por calcular
         ArrayList<String> sumabytes = new ArrayList<String>(); 			// Suma total de bytes
         ArrayList<String> bytesporlohex = new ArrayList<String>();  		// Bytes calculados
@@ -50,7 +50,7 @@ public class ArbolBinarioOrdenado {
 
           if (raiz == null){
           	contenido = st.nextToken();
-          	nuevo.codmaqenhex.add(contenido);		// C骴igo maquina en hexadecimal
+          	nuevo.codmaqenhex.add(contenido);		// C贸digo maquina en hexadecimal
           	contenido = st.nextToken();
           	nuevo.bytesporlasminus.add(contenido); 	// Bytes por calcular
           	contenido = st.nextToken();
@@ -80,7 +80,7 @@ public class ArbolBinarioOrdenado {
 
               if (nuevo.codop.compareTo(anterior.codop) <0){
               	contenido = st.nextToken();
-          		nuevo.codmaqenhex.add(contenido);		// C骴igo maquina en hexadecimal
+          		nuevo.codmaqenhex.add(contenido);		// C贸digo maquina en hexadecimal
           		contenido = st.nextToken();
           		nuevo.bytesporlasminus.add(contenido); 	// Bytes por calcular
           		contenido = st.nextToken();
@@ -92,7 +92,7 @@ public class ArbolBinarioOrdenado {
               else
               	if (nuevo.codop.compareTo(anterior.codop)>0) {
               		contenido = st.nextToken();
-          		  	nuevo.codmaqenhex.add(contenido);		// C骴igo maquina en hexadecimal
+          		  	nuevo.codmaqenhex.add(contenido);		// C贸digo maquina en hexadecimal
           		  	contenido = st.nextToken();
           		  	nuevo.bytesporlasminus.add(contenido); 	// Bytes por calcular
           		  	contenido = st.nextToken();
@@ -105,7 +105,7 @@ public class ArbolBinarioOrdenado {
                   	if(nuevo.codop.compareTo(anterior.codop)==0) {
                   		anterior.modosdir.add(contenido);
                   		contenido = st.nextToken();
-          				anterior.codmaqenhex.add(contenido);		// C骴igo maquina en hexadecimal
+          				anterior.codmaqenhex.add(contenido);		// C贸digo maquina en hexadecimal
           				contenido = st.nextToken();
           				anterior.bytesporlasminus.add(contenido); 	// Bytes por calcular
           				contenido = st.nextToken();
@@ -268,6 +268,9 @@ public class ArbolBinarioOrdenado {
               					System.out.println("ENTRO AQUI DIR");
               					System.out.println(oper);
               					System.out.println(oper);
+              					int valor = ValorReal(oper,mododir);
+    							oper = Integer.toString(valor);
+            		  			System.out.println("VAL: "+valor);
               					String codDir = abo.valorEnHEx(oper,codmaqenhex,minusc,mododir);
               					codDir = PonerAXcaracteres(codDir, minusc);
               					codmaqenhex=codmaqenhex+ codDir;
@@ -290,6 +293,9 @@ public class ArbolBinarioOrdenado {
               							System.out.println("ENTRO AQUI EXT");
               							System.out.println(oper);
               							System.out.println(oper);
+              							int valor = ValorReal(oper,mododir);
+    									oper = Integer.toString(valor);
+            		  					System.out.println("VAL: "+valor);
               							String codExt = abo.valorEnHEx(oper,codmaqenhex,minusc,mododir);
               							codExt = PonerAXcaracteres(codExt, minusc);
               							codmaqenhex=codmaqenhex+ codExt;
@@ -303,6 +309,9 @@ public class ArbolBinarioOrdenado {
     		          					System.out.println(oper);
     		          					StringTokenizer opConvertir = new StringTokenizer(oper,"#",false);
     									oper = opConvertir.nextToken();
+    									int valor = ValorReal(oper,mododir);
+    									oper = Integer.toString(valor);
+            		  					System.out.println("VAL: "+valor);
             		  					String codIMM8 = abo.valorEnHEx(oper,codmaqenhex,minusc,mododir);
             		  					codIMM8 = PonerAXcaracteres(codIMM8, minusc);
               							codmaqenhex=codmaqenhex+ codIMM8;
@@ -315,6 +324,9 @@ public class ArbolBinarioOrdenado {
     			          					System.out.println(minusc);
     		    	      					StringTokenizer opConvertir = new StringTokenizer(oper,"#",false);
     										oper = opConvertir.nextToken();
+    										int valor = ValorReal(oper,mododir);
+    										oper = Integer.toString(valor);
+            		  						System.out.println("VAL: "+valor);
             		  						String codIMM16 = abo.valorEnHEx(oper,codmaqenhex,minusc,mododir);
             		  						codIMM16 = PonerAXcaracteres(codIMM16, minusc);
               								codmaqenhex=codmaqenhex+ codIMM16;
@@ -499,6 +511,9 @@ public class ArbolBinarioOrdenado {
             		  									}
             		  									else {
             		  										if (registro.startsWith("-") || registro.endsWith("-")) {
+            		  											int valor = ValorReal(oper,mododir);
+    															oper = Integer.toString(valor);
+            		  											System.out.println("VAL: "+valor);
             		  											String val = abo.valorEnHEx(oper,codmaqenhex,minusc,mododir);
             		  											System.out.println("VALOR PARA PREPOST hexa: "+val);
             		  											int i = Integer.parseInt(val,16);
@@ -989,19 +1004,19 @@ public class ArbolBinarioOrdenado {
        								}
        								else {
        									if (bin.length() == 4) {
-       										bin = "0"+bin;
+       										bin = "0000"+bin;
        									}
        									else
        										if (bin.length() == 3) {
-       											bin = "00"+bin;
+       											bin = "00000"+bin;
        										}
        										else
        											if (bin.length() == 2) {
-       												bin = "000"+bin;
+       												bin = "000000"+bin;
        											}
        											else
        												if (bin.length() == 1)
-       													bin = "0000"+bin;
+       													bin = "0000000"+bin;
        								}
        								int encomplaDOS = ConversionAComplementoADos (bin, mododir);
        								oper = Integer.toHexString(encomplaDOS);
@@ -1044,6 +1059,10 @@ public class ArbolBinarioOrdenado {
     		if (binario.length() == 8)
     			binario = binario;
     	}
+    	
+    	if(mododir.equalsIgnoreCase("EXT"))
+    				for (int i = binario.length(); i<16 ; i++)
+    						binario = "0"+binario;
 
     	System.out.println("binariooooo: "+binario);
     	char [] bin = binario.toCharArray();
@@ -1161,7 +1180,10 @@ public class ArbolBinarioOrdenado {
     				StringTokenizer opConvertir = new StringTokenizer(oper,"%",false);
     				oper = opConvertir.nextToken();
     				if(oper.matches("[0-1_]+")){
-    					if(oper.startsWith("1") && oper.length()>8) {
+    					if(oper.startsWith("1")) {
+    						if(mododir.equalsIgnoreCase("EXT") && oper.length() > 1)
+    							for (int i = oper.length(); i<16 ; i++)
+    								oper = "1"+oper;
     						System.out.println("Binario: "+oper);
     						/*int i = Integer.parseInt(contenido,2);
     						String bin = Integer.toBinaryString(i);*/
